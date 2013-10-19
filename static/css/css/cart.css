@@ -1,0 +1,6 @@
+.page-cart table.table-cart tr {
+  background: red;
+}
+.page-cart table.table-cart tr img {
+  width: 100px;
+}

@@ -1,0 +1,454 @@
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.font {
+  font-family: 'Open Sans', sans-serif;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+.btn,
+button,
+input[type=submit] {
+  border: 2px solid #333;
+  padding: 14px 20px ;
+  text-transform: uppercase;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+  background: #999;
+  border: none;
+  border-bottom: 5px solid #bbb;
+  border-radius: 2px;
+  font-weight: 100;
+  color: #FFF;
+  text-decoration: none;
+  text-shadow: none !important;
+}
+.btn:hover,
+button:hover,
+input[type=submit]:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.btn.btn-red,
+button.btn-red,
+input[type=submit].btn-red {
+  background: #ff3535;
+  border-bottom-color: #e03232;
+}
+.btn.btn-green,
+button.btn-green,
+input[type=submit].btn-green {
+  background: #2ebf6a;
+  border-bottom-color: #1e944f;
+}
+.clear {
+  clear: both;
+}
+.page {
+  margin: 0 auto;
+  width: 900px;
+}
+.col-1-2,
+.col-2-2 {
+  float: left;
+  width: 50%;
+  padding: 0;
+  margin: 0;
+}
+strong {
+  font-weight: 800;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 5px 5px 0 5px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 0 4px #eee;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 999;
+}
+header ul.menu {
+  float: right;
+  width: 500px;
+  text-align: right;
+  margin-right: 50px;
+}
+header ul.menu li {
+  display: inline-block;
+  padding: 15px;
+  border-bottom: 2px solid transparent;
+}
+header ul.menu li a {
+  color: #999;
+  text-decoration: none;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+header ul.menu li a:hover {
+  color: #333;
+  text-decoration: underline;
+}
+header ul.menu li.active {
+  border-bottom: 2px solid #999;
+}
+header ul.menu li.active a {
+  color: #999;
+}
+header ul.menu li.active a:hover {
+  text-decoration: none;
+}
+header a.logo {
+  text-decoration: none;
+  color: #2ebf6a;
+  font-size: 20px;
+  font-weight: 100;
+  line-height: 40px;
+  margin-left: 50px;
+}
+body {
+  background: #eee;
+}
+#content {
+  margin-top: 100px;
+  text-align: center;
+}
+#content h1,
+#content h2,
+#content h3,
+#content h4,
+#content h5,
+#content h6 {
+  font-weight: 100;
+  text-transform: uppercase;
+}
+#content h1 {
+  margin-top: 50px;
+  font-size: 40px;
+  font-weight: 100;
+  text-shadow: 0 2px #FFF;
+}
+#content h2 {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 100;
+}
+#content .photo-header {
+  background: url(http://www.ryan-cunningham.com/wp-content/uploads/2012/07/Fotolia_42537134_Subscription_Monthly_XL.jpg) center no-repeat;
+  background-size: 100%;
+  width: 100%;
+  height: 300px;
+  position: relative;
+  top: -47px;
+}
+input[type=textbox],
+input[type=password],
+input[type=text] {
+  background: #EEE;
+  border: none;
+  padding: 13px;
+  margin: 0 10px 10px 0;
+  font-size: 13px;
+  font-family: 'Open Sans', sans-serif;
+}
+input[type=textbox]:focus,
+input[type=password]:focus,
+input[type=text]:focus {
+  outline: none;
+  border-bottom: 2px solid #2ebf6a;
+  padding-bottom: 11px;
+}
+.input-inline {
+  margin: 20px;
+}
+.input-inline input {
+  margin-right: 0 !important;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.input-inline .btn {
+  border: none;
+  position: relative;
+  left: -5px;
+  border-radius: 0;
+  padding: 15px;
+  top: -1px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-right: 2px solid #1e944f;
+  font-size: 10px;
+  line-height: 14px;
+}
+.login-box {
+  background: #FFF;
+  width: 600px;
+  margin: 100px auto;
+  padding: 50px;
+}
+.product-list li {
+  float: left;
+  width: 30%;
+  margin-left: 3%;
+  margin-bottom: 3%;
+}
+.product-list li a {
+  text-decoration: none;
+  color: #999;
+  text-shadow: 0 1px #FFF;
+}
+.product-list li a img {
+  opacity: 0.9;
+}
+.product-list li a .product-name {
+  font-weight: 100;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.product-list li a .product-price {
+  font-size: 14px;
+  display: inline-block;
+  padding-left: 5px;
+}
+.product-list li a:hover {
+  color: #444;
+}
+.product-list li a:hover img {
+  opacity: 1;
+}
+.product-filters {
+  font-size: 12px;
+  text-transform: uppercase;
+  position: relative;
+  top: -20px;
+  color: #999;
+}
+.product-filters a {
+  display: inline-block;
+  padding: 5px;
+  text-decoration: none;
+  color: #999;
+  font-weight: 100;
+}
+.product-filters a.active {
+  font-weight: 500;
+  color: #2ebf6a;
+}
+.product-filters a:hover {
+  text-decoration: underline;
+  color: #333;
+}
+.page-cart table.table-cart {
+  width: 100%;
+}
+.page-cart table.table-cart tr td {
+  vertical-align: middle;
+  border-bottom: 1px dotted #999;
+  font-size: 14px;
+  text-align: left;
+}
+.page-cart table.table-cart tr td img {
+  width: 100px;
+}
+.page-cart table.table-totals {
+  font-size: 12px;
+  line-height: 2;
+  width: 100%;
+  text-align: left;
+  margin-top: 20px;
+}
+.page-cart .cart-form-coupon input {
+  text-transform: uppercase;
+}
+.page-checkout h1 {
+  margin: 0 0 10px 90px !important;
+  text-align: left;
+}
+.page-checkout .checkout-panel {
+  background: #FFF;
+  padding: 25px;
+  width: 680px;
+  margin: 0 auto;
+  border-radius: 3px;
+  position: relative;
+  /*For animation*/
+
+}
+.page-checkout .checkout-panel .col-2-2 {
+  width: 370px;
+}
+.page-checkout .checkout-panel .col-1-2 {
+  width: 300px;
+}
+.page-checkout .checkout-panel h2 {
+  text-align: left;
+  margin-bottom: 10px;
+}
+.page-checkout .checkout-panel .address-form {
+  text-align: left;
+}
+.page-checkout .checkout-panel input[type=text] {
+  width: 330px;
+}
+.page-checkout .checkout-panel input[type=text].w2 {
+  width: 145px;
+}
+.page-checkout .checkout-panel input[type=text].w3 {
+  width: 20%;
+}
+.page-checkout .checkout-panel .btn-group {
+  padding: 25px;
+  text-align: right;
+}
+.page-checkout .checkout-progress {
+  text-align: right;
+  margin: 0 90px 10px 0;
+}
+.page-checkout .checkout-progress li {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  margin-left: 25px;
+}
+.page-checkout .checkout-progress li a {
+  color: #999;
+  text-decoration: none;
+}
+.page-checkout .checkout-progress li a:before {
+  content: "•";
+  font-size: 30px;
+  line-height: 10px;
+  position: relative;
+  top: 7px;
+  right: 2px;
+}
+.page-checkout .checkout-progress li.active a {
+  color: #2ebf6a;
+}

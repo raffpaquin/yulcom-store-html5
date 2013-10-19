@@ -1,0 +1,40 @@
+input{
+
+	&[type=textbox],&[type=password],&[type=text]{
+		background: #EEE;
+		border:none;
+		padding:13px;
+		margin:0 10px 10px 0;
+		font-size:13px;
+		.font;
+
+		&:focus{
+			outline: none;
+			border-bottom: 2px solid #2ebf6a;
+			padding-bottom: 11px;
+		}
+	}
+}
+
+.input-inline{
+	margin:20px;
+	input{
+		margin-right:0 !important;
+		border-top-left-radius: 2px;
+		border-bottom-left-radius: 2px;
+	}
+
+	.btn{
+		border:none;
+		position: relative;
+		left:-5px;
+		border-radius: 0;
+		padding: 15px;
+		top: -1px;
+		border-top-right-radius: 2px;
+		border-bottom-right-radius: 2px;
+		border-right:2px solid #1e944f;
+		font-size: 10px;
+		line-height: 14px;
+	}
+}

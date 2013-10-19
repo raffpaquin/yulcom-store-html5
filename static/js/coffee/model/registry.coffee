@@ -1,0 +1,1 @@
+ModelRegistry = Backbone.Model.extend() 

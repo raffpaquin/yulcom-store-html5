@@ -1,0 +1,185 @@
+
+
+<div class="page page-checkout">
+
+	<h1 style="float:left; width:200px;">
+		Checkout
+	</h1>
+	
+
+
+	<div style="float:right; width:600px;">
+		<ul class="checkout-progress">
+			<li class="progress-shipping-address" class="active">
+				<a href="#" onclick="app.checkout.goTo('shipping-address'); return false;">Shipping Address</a>
+			</li>
+			<li class="progress-billing-address">
+				<a href="#" onclick="app.checkout.goTo('billing-address'); return false;">Billing Address</a>
+			</li>
+			<li class="progress-payment-method">
+				<a href="#" onclick="app.checkout.goTo('payment-method'); return false;">Payment Information</a>
+			</li>
+			<li class="progress-review">
+				<a href="#" onclick="app.checkout.goTo('review'); return false;">Review</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="clear"></div>
+
+	<div class="checkout-panel" style="opacity:0;">
+		<ul>
+			<li class="step-shipping-address" style="display:none;">
+				<div class="col-1-2">
+					<img src="http://tadose.ca/images/layout/square_map-icon.png" />
+				</div>
+
+				<div class="col-2-2">
+					<h2>New Shipping Address</h2>
+					<form class="address-form" onsubmit="return false;">
+						<input type="text" class="w2" placeholder="Firstname" />
+						<input type="text" class="w2"  placeholder="Lastname" /><br/>
+						<input type="text" class="w1" placeholder="Street" /><br/>
+						<input type="text" class="w1" placeholder="Street" /><br/>
+						<input type="text" class="w2" placeholder="City" />
+						<input type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
+						<input type="text" class="w2" placeholder="Country" />
+						<input type="text" class="w2" placeholder="State / Province" />
+						<label>
+							<input checked="checked" type="checkbox" /> Use same for Billing Address
+						</label>
+					</form>
+				</div>
+
+				<div class="clear"></div>
+
+				<div class="btn-group">
+					<a href="/cart" class="btn">Back</a>
+					<a href="#" class="btn btn-green">Continue &raquo;</a>
+				</div>
+			</li>
+			<li class="step-billing-address" style="display:none;">
+				<div class="col-1-2">
+					<img style="margin-top: 100px;" src="http://tadose.ca/images/layout/square_map-icon.png" />
+				</div>
+
+				<div class="col-2-2">
+					<h2>New Billing Address</h2>
+					<form class="address-form" onsubmit="return false;">
+						<input type="text" class="w2" placeholder="Firstname" />
+						<input type="text" class="w2"  placeholder="Lastname" /><br/>
+						<input type="text" class="w1" placeholder="Street" /><br/>
+						<input type="text" class="w1" placeholder="Street" /><br/>
+						<input type="text" class="w2" placeholder="City" />
+						<input type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
+						<input type="text" class="w2" placeholder="Country" />
+						<input type="text" class="w2" placeholder="State / Province" />
+						<label>
+							<input checked="checked" type="checkbox" /> Use same for Billing Address
+						</label>
+					</form>
+				</div>
+
+				<div class="clear"></div>
+
+				<div class="btn-group">
+					<a href="/cart" class="btn">Back</a>
+					<a href="#" class="btn btn-green">Continue &raquo;</a>
+				</div>
+			</li>
+			<li class="step-payment-method" style="display:none;">
+				<div class="col-1-2">
+					<img style="margin-top: 100px;" src="http://tadose.ca/images/layout/square_map-icon.png" />
+				</div>
+
+				<div class="col-2-2">
+					<h2>New Payment Method</h2>
+					<form class="address-form" onsubmit="return false;">
+						<input type="text" class="w1" placeholder="Credit Card Number" /><br/>
+
+						<input type="text" class="w3" placeholder="CVV" />
+						<input type="text" class="w3" placeholder="Expiration Month" />
+						<input type="text" class="w3" placeholder="Year" />
+					</form>
+				</div>
+
+				<div class="clear"></div>
+
+				<div class="btn-group">
+					<a href="/cart" class="btn">Back</a>
+					<a href="#" class="btn btn-green">Continue &raquo;</a>
+				</div>
+			</li>
+			<li class="step-review" style="display:none;">
+				<div class="col-1-2">
+					<img style="margin-top: 50px;" src="http://tadose.ca/images/layout/square_map-icon.png" />
+				</div>
+
+				<div class="col-2-2">
+					<h2>Order Review</h2>
+					<form class="address-form" onsubmit="return false;">
+						<input type="text" class="w1" placeholder="Credit Card Number" /><br/>
+
+						<input type="text" class="w3" placeholder="CVV" />
+						<input type="text" class="w3" placeholder="Expiration Month" />
+						<input type="text" class="w3" placeholder="Year" />
+					</form>
+				</div>
+
+				<div class="clear"></div>
+
+				<div class="btn-group">
+					<a href="/cart" class="btn">Back to Cart</a>
+					<a href="#" class="btn btn-green">Process &raquo;</a>
+				</div>
+			</li>
+		</ul>
+
+		
+
+	
+	</div>
+
+
+
+
+	<!--div class="col-1-2">
+		<div>
+			<h2>Payment Method</h2>
+			<label>
+				Card Number<br/>
+				<input type="text" />
+			</label>
+
+			<br/>
+
+			<label>
+				CVC or CVS<br/>
+				<input />
+			</label>
+
+			<br/>
+
+			<label>
+				Expiration Date<br/>
+				<input />
+			</label>
+			<a href="#" class="btn">Add Payment Method</a>
+		</div>
+	</div>
+	<div class="col-2-2">
+		
+		<div class="margin-top:40px;">
+			<a href="#" class="btn btn-green">Process</a>
+		</div>
+	</div>
+	<div class="clear"></div-->
+
+	
+
+
+	
+
+
+
+</div>
