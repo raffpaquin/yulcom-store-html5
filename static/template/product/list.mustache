@@ -23,69 +23,17 @@
 
 	<div>
 		<ul class="product-list">
-			<li>
-				<a href="/products/1">
-					<img src="/static/images/products/tango.png" /><br/>
-					<span class="product-name">Tango</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/2">
-					<img src="/static/images/products/cactus.png" /><br/>
-					<span class="product-name">Cactus</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/3">
-					<img src="/static/images/products/taxi.png" /><br/>
-					<span class="product-name">Taxi</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/4">
-					<img src="/static/images/products/samba.png" /><br/>
-					<span class="product-name">Samba</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/1">
-					<img src="/static/images/products/tango.png" /><br/>
-					<span class="product-name">Tango</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/2">
-					<img src="/static/images/products/cactus.png" /><br/>
-					<span class="product-name">Cactus</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/3">
-					<img src="/static/images/products/taxi.png" /><br/>
-					<span class="product-name">Taxi</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/4">
-					<img src="/static/images/products/samba.png" /><br/>
-					<span class="product-name">Samba</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
-			<li>
-				<a href="/products/4">
-					<img src="/static/images/products/samba.png" /><br/>
-					<span class="product-name">Samba</span>
-					<span class="product-price">$9</span>
-				</a>
-			</li>
+			{{#each products}}
+				{{#if image}}
+					<li>
+						<a href="/products/{{id}}">
+							<img src="{{image}}" /><br/>
+							<span class="product-name">{{name}}</span>
+							<span class="product-price">${{price.value}}</span>
+						</a>
+					</li>
+				{{/if}}
+			{{/each}}
 		</ul>
 		<div class="clear"></div>
 	</div>

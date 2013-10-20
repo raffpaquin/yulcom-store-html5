@@ -23,7 +23,6 @@ app.template =
 		#Base Object
 	 	#object = $.extend {customer:app.models.customer.toJSON()}, object
 	 	if @engines[template_id]
-	 		console.log object 
 	 		@engines[template_id] object
 	 	else
 	 		alert 'Unknow Template Engine'

@@ -3,6 +3,7 @@ window.app =
 	collections:{}
 	models:{}
 	views:{}
+	config:{}
 app = window.app
 $ = window.$
 _ = window._
@@ -13,6 +14,10 @@ Handlebars = window.Handlebars
 #Gave Event Capabilities to the APP
 _.extend app, Backbone.Events
 
-app.init = (config = {}) ->
-	@config = config
+app.init = () ->
 	@
+
+app.get = (key) ->
+	@config[key]
+
+app.config = window.configs

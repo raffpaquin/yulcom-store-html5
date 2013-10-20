@@ -132,6 +132,14 @@ table {
 body {
   font-family: 'Open Sans', sans-serif;
 }
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .btn,
 button,
 input[type=submit] {
@@ -411,6 +419,14 @@ input[type=text]:focus {
   text-align: left;
   margin-bottom: 10px;
 }
+.page-checkout .checkout-panel h2 a {
+  float: right;
+  text-decoration: none;
+  padding-right: 13px;
+  font-size: 12px;
+  padding-top: 7px;
+  color: #2ebf6a;
+}
 .page-checkout .checkout-panel .address-form {
   text-align: left;
 }
@@ -429,7 +445,7 @@ input[type=text]:focus {
 }
 .page-checkout .checkout-progress {
   text-align: right;
-  margin: 0 90px 10px 0;
+  margin: 15px 90px 10px 0;
 }
 .page-checkout .checkout-progress li {
   display: inline-block;
@@ -451,4 +467,85 @@ input[type=text]:focus {
 }
 .page-checkout .checkout-progress li.active a {
   color: #2ebf6a;
+  cursor: default;
+}
+.page-checkout .checkout-address-list li,
+.page-checkout .checkout-cc-list li {
+  display: block !important;
+  background: #eee;
+  font-size: 12px;
+  text-align: left;
+  padding: 15px 15px 15px 40px;
+  text-transform: uppercase;
+  color: #999;
+  text-shadow: 0 1px #FFF;
+  margin-bottom: 1px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 3px;
+}
+.page-checkout .checkout-address-list li:hover,
+.page-checkout .checkout-cc-list li:hover {
+  background: #ddd;
+  cursor: pointer;
+}
+.page-checkout .checkout-address-list li.active,
+.page-checkout .checkout-cc-list li.active {
+  background: #2ebf6a;
+  color: #FFF;
+  text-shadow: 0 1px #1e944f;
+}
+.page-checkout .checkout-address-list li.active label,
+.page-checkout .checkout-cc-list li.active label {
+  /*&:before{
+						color:@green-dark;
+					}*/
+
+}
+.page-checkout .checkout-address-list li label,
+.page-checkout .checkout-cc-list li label {
+  /*&:before{
+					content:"•";
+					float:left;
+					display:block;
+					font-size:70px;
+					line-height: 30px;
+					padding-right: 25px;
+					color:#FFF;
+				}*/
+
+}
+.page-checkout .checkout-address-list li input[type=radio],
+.page-checkout .checkout-cc-list li input[type=radio] {
+  display: none;
+}
+.page-checkout .checkout-address-list li.add,
+.page-checkout .checkout-cc-list li.add {
+  text-align: left;
+  font-size: 16px;
+  padding: 20px !important;
+}
+.page-checkout .checkout-cc-list li img {
+  float: right;
+  position: relative;
+  top: -14px;
+  width: 50px;
+}
+.page-checkout input.cc-num.identified.visa {
+  background: #eeeeee url('/static/images/cc/visa.png') 302px 7px no-repeat;
+  background-size: 50px;
+}
+.page-checkout input.cc-num.identified.mastercard {
+  background: #eeeeee url('/static/images/cc/mastercard.png') 302px 7px no-repeat;
+  background-size: 50px;
+}
+.page-checkout .same-as-shipping {
+  text-align: left;
+  font-size: 10px;
+  display: block;
+  padding: 10px 0;
 }

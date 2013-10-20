@@ -25,6 +25,15 @@
 		h2{
 			text-align:left; 
 			margin-bottom:10px;
+
+			a{
+				float: right;
+				text-decoration: none;
+				padding-right: 13px;
+				font-size: 12px;
+				padding-top: 7px;
+				color:@green;
+			}
 		}
 		.address-form{
 			text-align: left;
@@ -54,7 +63,7 @@
 
 	.checkout-progress{
 		text-align: right;
-		margin:0 90px 10px 0;
+		margin:15px 90px 10px 0;
 
 		li{
 			display: inline-block;
@@ -80,9 +89,98 @@
 			&.active{
 				a{
 					color:@green;
+					cursor: default;
 				}
 			}
 
 		}
+	}
+
+	.checkout-address-list, .checkout-cc-list{
+		li {
+			display:block !important;
+			background: #eee;
+			font-size:12px;
+			text-align:left;
+			padding:15px 15px 15px 40px;
+			text-transform: uppercase;
+			color:#999;
+			text-shadow:0 1px #FFF;
+			margin-bottom: 1px;
+			.no-select;
+			border-radius: 3px;
+
+			&:hover{
+				background: #ddd;
+				cursor: pointer;
+			}
+
+			&.active{
+				background: @green;
+				color:#FFF;
+				text-shadow:0 1px #1e944f;
+
+				label{
+					/*&:before{
+						color:@green-dark;
+					}*/
+				}
+			}
+
+
+			label{
+				/*&:before{
+					content:"•";
+					float:left;
+					display:block;
+					font-size:70px;
+					line-height: 30px;
+					padding-right: 25px;
+					color:#FFF;
+				}*/
+			}
+
+			input[type=radio]{
+				display:none;
+			}
+
+			&.add{
+				text-align: left;
+				font-size:16px;
+				padding:20px !important;
+			}
+		}
+	}
+
+	.checkout-cc-list{
+		li{
+			img{
+				float: right;
+				position: relative;
+				top: -14px;
+				width: 50px;
+			}
+		}
+
+
+	}
+
+	input.cc-num{
+
+		&.identified.visa{
+			background: #eee url('/static/images/cc/visa.png') 302px 7px no-repeat;
+			background-size:50px;
+		}
+		&.identified.mastercard{
+			background: #eee url('/static/images/cc/mastercard.png') 302px 7px no-repeat;
+			background-size:50px;
+		}
+	}
+
+	.same-as-shipping{
+		text-align: left;
+		font-size:10px;
+		display: block;
+		padding: 10px 0;
 	}
 }

@@ -20,7 +20,8 @@ AppController = Backbone.Router.extend
 		':path':			'error'
 
 	initialize: ->
-		app.views.page = new ViewPage
+		app.views.page = new ViewPage 
+		app.collections.products = new CollectionProduct()
 
 
 
@@ -51,14 +52,18 @@ app.controller.on 'route:login', ->
 		menu:'login'
 
 app.controller.on 'route:product', ->
+	app.views.page.reset()
+	app.views.page.loadCollection 'products', app.collections.products
+	app.views.page.loadTemplate 'product/list'
 	app.views.page.load
-		template:'product/list'
 		menu:'products'
 
-app.controller.on 'route:product-view', ->
-
+app.controller.on 'route:product-view', (product_id) ->
+	alert product_id
+	app.views.page.reset()
+	app.views.page.loadModel 'product', new app.models.product {id:product_id}
+	app.views.page.loadTemplate 'product/view'
 	app.views.page.load
-		template:'product/view'
 		menu:'products'
 
 app.controller.on 'route:cart', ->
@@ -71,16 +76,8 @@ app.controller.on 'route:checkout', ->
 		template:'checkout/checkout'
 		menu:'cart'
 
-app.controller.on 'route:product-view', (product_id) ->
-	if app.models.customer.isLogin()
-		app.views.page.load
-			template:'product/view'
-			data:
-				url:'product/view'
-				data:
-					id:product_id
-				type:'get'
-			menu:'product'
+	app.checkout.init()
+
 
 app.controller.on 'route:product-add', ->
 	if app.models.customer.isLogin()

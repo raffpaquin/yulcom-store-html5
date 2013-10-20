@@ -35,9 +35,13 @@
 				</div>
 
 				<div class="col-2-2">
-					<h2>New Shipping Address</h2>
-					<form class="address-form" onsubmit="return false;">
-						<input type="text" class="w2" placeholder="Firstname" />
+					
+					<form style="display:none;" class="address-form" onsubmit="return false;">
+						<h2>
+							Add Shipping Address 
+							<a href="#" onclick="app.checkout.toggleForm('shipping-address'); return false;">&laquo; View All</a>
+						</h2>
+						<input name="firstname" type="text" class="w2" placeholder="Firstname" />
 						<input type="text" class="w2"  placeholder="Lastname" /><br/>
 						<input type="text" class="w1" placeholder="Street" /><br/>
 						<input type="text" class="w1" placeholder="Street" /><br/>
@@ -45,17 +49,44 @@
 						<input type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
 						<input type="text" class="w2" placeholder="Country" />
 						<input type="text" class="w2" placeholder="State / Province" />
-						<label>
-							<input checked="checked" type="checkbox" /> Use same for Billing Address
-						</label>
+						
 					</form>
+
+					<div class="form-list ">
+						<h2>Select Shipping Address</h2>
+						<ul class="checkout-address-list">
+							<li onclick="app.checkout.saveSection('shipping-address'); return false;">
+								<label>
+									<input type="radio" />
+									8217 av de Gaspé<br/>
+									Montréal, Quebec. H2P 2J9
+								</label>
+							</li>
+							<li class="active" onclick="app.checkout.saveSection('shipping-address'); return false;">
+								<label>
+									<input type="radio" />
+									160, rue Saint-Viateur Est<br/>
+									Bureau 600<br/>
+									Montréal, Quebec. H2P 2J9
+								</label>
+							</li>
+							<li class="add" onclick="app.checkout.toggleForm('shipping-address'); return false;">
+								Add new
+							</li>
+						</ul>
+					</div>
+
+					<label class="same-as-shipping">
+						<input checked="checked" type="checkbox" /> Use same for Billing Address
+					</label>
+
 				</div>
 
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="/cart" class="btn">Back</a>
-					<a href="#" class="btn btn-green">Continue &raquo;</a>
+					<a href="/cart" class="btn">Back to Cart</a>
+					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('shipping-address'); return false;">Continue &raquo;</a>
 				</div>
 			</li>
 			<li class="step-billing-address" style="display:none;">
@@ -74,17 +105,14 @@
 						<input type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
 						<input type="text" class="w2" placeholder="Country" />
 						<input type="text" class="w2" placeholder="State / Province" />
-						<label>
-							<input checked="checked" type="checkbox" /> Use same for Billing Address
-						</label>
 					</form>
 				</div>
 
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="/cart" class="btn">Back</a>
-					<a href="#" class="btn btn-green">Continue &raquo;</a>
+					<a href="#" class="btn" onclick="app.checkout.goTo('shipping-address'); return false;">Back</a>
+					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('billing-address'); return false;">Continue &raquo;</a>
 				</div>
 			</li>
 			<li class="step-payment-method" style="display:none;">
@@ -93,21 +121,54 @@
 				</div>
 
 				<div class="col-2-2">
-					<h2>New Payment Method</h2>
-					<form class="address-form" onsubmit="return false;">
-						<input type="text" class="w1" placeholder="Credit Card Number" /><br/>
+
+					<form style="display:none;" class="address-form" onsubmit="return false;">
+						<h2>
+							Add Payment Method 
+							<a href="#" onclick="app.checkout.toggleForm('payment-method'); return false;">&laquo; View All</a>
+						</h2>
+						<form class="address-form" onsubmit="return false;">
+						<input type="text" class="cc-num w1" placeholder="Credit Card Number" /><br/>
 
 						<input type="text" class="w3" placeholder="CVV" />
 						<input type="text" class="w3" placeholder="Expiration Month" />
 						<input type="text" class="w3" placeholder="Year" />
 					</form>
+						
+					</form>
+
+					<div class="form-list ">
+						<h2>Select Payment Method</h2>
+						<ul class="checkout-cc-list">
+							<li onclick="app.checkout.saveSection('payment-method'); return false;">
+								<label>
+									VISA Credit Card<br/>
+									XXXX 4567 &mdash; Expiration 12/2013
+								</label>
+								<img src="/static/images/cc/visa.png" />
+							</li>
+							<li class="active" onclick="app.checkout.saveSection('payment-method'); return false;">
+								<label>
+									MasterCard Credit Card<br/>
+									XXXX 3928 &mdash; Expiration 13/2015
+								</label>
+								<img src="/static/images/cc/mastercard.png" />
+							</li>
+							<li class="add" onclick="app.checkout.toggleForm('payment-method'); return false;">
+								Add new
+							</li>
+						</ul>
+					</div>
+
+
+					
 				</div>
 
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="/cart" class="btn">Back</a>
-					<a href="#" class="btn btn-green">Continue &raquo;</a>
+					<a href="#" class="btn" onclick="app.checkout.goTo('billing-address'); return false;">Back</a>
+					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('payment-method'); return false;">Continue &raquo;</a>
 				</div>
 			</li>
 			<li class="step-review" style="display:none;">
@@ -129,57 +190,10 @@
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="/cart" class="btn">Back to Cart</a>
-					<a href="#" class="btn btn-green">Process &raquo;</a>
+					<a href="#" class="btn" onclick="app.checkout.goTo('payment-method'); return false;">Back</a>
+					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('review'); return false;">Process &raquo;</a>
 				</div>
 			</li>
 		</ul>
-
-		
-
-	
 	</div>
-
-
-
-
-	<!--div class="col-1-2">
-		<div>
-			<h2>Payment Method</h2>
-			<label>
-				Card Number<br/>
-				<input type="text" />
-			</label>
-
-			<br/>
-
-			<label>
-				CVC or CVS<br/>
-				<input />
-			</label>
-
-			<br/>
-
-			<label>
-				Expiration Date<br/>
-				<input />
-			</label>
-			<a href="#" class="btn">Add Payment Method</a>
-		</div>
-	</div>
-	<div class="col-2-2">
-		
-		<div class="margin-top:40px;">
-			<a href="#" class="btn btn-green">Process</a>
-		</div>
-	</div>
-	<div class="clear"></div-->
-
-	
-
-
-	
-
-
-
 </div>

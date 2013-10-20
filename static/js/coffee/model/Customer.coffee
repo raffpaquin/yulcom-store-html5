@@ -1,0 +1,1 @@
+ModelCustomer = Backbone.Model.extend

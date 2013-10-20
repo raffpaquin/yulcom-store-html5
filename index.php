@@ -11,6 +11,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/static/css/main.css">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,500' rel='stylesheet' type='text/css'>
+	<script type="text/javascript">
+        window.configs = (<?= json_encode(include 'config/get.php'); ?>);
+    </script>
 </head>
     <body>
 
@@ -31,17 +34,12 @@
 	    	</header>
 
 
-	    	<div id="content">
-	    		
-	    		
-	    		
-
-
-
-	    	</div>
+	    	<div id="content"></div>
 
     	</div>
 
-
         <script src="/static/js/vendor.js"></script>
         <script src="/static/js/app.js"></script>
+        <script type="text/javascript">
+           	app.init();
+        </script>
