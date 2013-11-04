@@ -18,24 +18,8 @@
     <body>
 
     	<div class="wrapper">
-    		
-	    	<header>
-	    		<a class="logo" href="/">
-	    			my<span style="font-weight: 700;">company</span>.
-	    		</a>
-
-	    		<ul class="menu">
-	    			<li data-href="products"><a href="/products">Products</a></li>
-	    			<li data-href="refill"><a href="/refill">Auto-Refill</a></li>
-	    			<li data-href="cart"><a href="/cart">Cart</a></li>
-	    			<li data-href="help"><a href="/help">Help</a></li>
-	    			<li data-href="login"><a href="/login">Join</a></li>
-	    		</ul>
-	    	</header>
-
-
+	    	<header></header>
 	    	<div id="content"></div>
-
     	</div>
 
         <script src="/static/js/vendor.js"></script>

@@ -1,2 +1,4 @@
-ModelCustomerAddress = Backbone.Model.extend
-	urlRoot:'/v1.0/customer/address'
+class Yulcom.Model.CustomerAddress extends Yulcom.Model.Base
+
+	url: ->
+		app.get('api')+'customer/address'

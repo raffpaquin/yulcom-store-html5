@@ -157,12 +157,19 @@ input[type=submit] {
   color: #FFF;
   text-decoration: none;
   text-shadow: none !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .btn:hover,
 button:hover,
 input[type=submit]:hover {
   opacity: 0.8;
   cursor: pointer;
+  text-decoration: none;
 }
 .btn.btn-red,
 button.btn-red,
@@ -175,6 +182,14 @@ button.btn-green,
 input[type=submit].btn-green {
   background: #2ebf6a;
   border-bottom-color: #1e944f;
+}
+.btn.btn-green.loading,
+button.btn-green.loading,
+input[type=submit].btn-green.loading {
+  background: #2ebf6a url('/static/images/loading.gif') center no-repeat;
+  background-size: 100px;
+  opacity: 0.5;
+  color: transparent;
 }
 .clear {
   clear: both;
@@ -193,6 +208,27 @@ input[type=submit].btn-green {
 strong {
   font-weight: 800;
 }
+a {
+  color: #3366CC;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.alert {
+  background: #eee;
+  padding: 15px;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-shadow: 0 1px #FFF;
+  color: #999;
+  border-radius: 2px;
+  display: none;
+}
+.alert.alert-error {
+  background: #f2dede;
+  color: #b94a48;
+}
 header {
   position: fixed;
   top: 0;
@@ -203,6 +239,7 @@ header {
   box-shadow: 0 0 4px #eee;
   background: rgba(255, 255, 255, 0.95);
   z-index: 999;
+  min-height: 45px;
 }
 header ul.menu {
   float: right;
@@ -317,8 +354,11 @@ input[type=text]:focus {
 }
 .login-box {
   background: #FFF;
-  width: 600px;
+  width: 500px;
   margin: 100px auto;
+  border-radius: 2px;
+}
+.login-box .login-step {
   padding: 50px;
 }
 .product-list li {
@@ -548,4 +588,20 @@ input[type=text]:focus {
   font-size: 10px;
   display: block;
   padding: 10px 0;
+}
+.page-checkout .address-list form {
+  display: none;
+}
+.page-checkout .address-list .form-list {
+  display: block;
+}
+.page-checkout .address-list h2 a {
+  display: inline;
+}
+.page-checkout .address-list.list-empty form {
+  display: block;
+}
+.page-checkout .address-list.list-empty .form-list,
+.page-checkout .address-list.list-empty h2 a {
+  display: none;
 }

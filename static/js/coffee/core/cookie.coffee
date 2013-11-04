@@ -1,4 +1,4 @@
-app.cookies =
+app.cookie =
 	read: (key='')->
 		regex = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)')
 		result = regex.exec(document.cookie)

@@ -1,28 +1,20 @@
-AppController = Backbone.Router.extend
-	_page:null
+class Yulcom.Router extends Backbone.Router
 	routes:
-		
-		
-		#'home(/)':			'home'
-
 		'login(/)':			'login'
 		'products(/)':		'product'
-		'products/:key(/)':	'product-view'
+		'products/:key(/)':	'productView'
 		'cart(/)':			'cart'
 		'checkout(/)':		'checkout'
 		'help(/)':			'help'
 		'profil(/)':		'profil'
-
-
 		'error(/)(:number)':'error'
 		'logout(/)':		'logout'
 		'':					'home'
 		':path':			'error'
 
 	initialize: ->
-		app.views.page = new ViewPage 
-		app.collections.products = new CollectionProduct()
-
+		Backbone.history.start
+			pushState: true
 
 
 	load: (page_definition) ->
@@ -33,128 +25,76 @@ AppController = Backbone.Router.extend
 		Backbone.history.start()
 
 	redirect: (url) ->
-		app.controller.navigate url,
+		@navigate url,
 				trigger:true
 
 
-
-app.controller = new AppController	
-
-
-app.controller.on 'route:home', ->
-	app.views.page.load
-		template:'index'
-		menu:'index'
-
-app.controller.on 'route:login', ->
-	app.views.page.load
-		template:'login'
-		menu:'login'
-
-app.controller.on 'route:product', ->
-	app.views.page.reset()
-	app.views.page.loadCollection 'products', app.collections.products
-	app.views.page.loadTemplate 'product/list'
-	app.views.page.load
-		menu:'products'
-
-app.controller.on 'route:product-view', (product_id) ->
-	alert product_id
-	app.views.page.reset()
-	app.views.page.loadModel 'product', new app.models.product {id:product_id}
-	app.views.page.loadTemplate 'product/view'
-	app.views.page.load
-		menu:'products'
-
-app.controller.on 'route:cart', ->
-	app.views.page.load
-		template:'cart/cart'
-		menu:'cart'
-
-app.controller.on 'route:checkout', ->
-	app.views.page.load
-		template:'checkout/checkout'
-		menu:'cart'
-
-	app.checkout.init()
-
-
-app.controller.on 'route:product-add', ->
-	if app.models.customer.isLogin()
+	home: ->
+		app.views.page.reset()
+		app.views.page.loadTemplate 'index'
 		app.views.page.load
-			template:'product/add'
-			menu:'product'
+			menu:'index'
 
+	login: ->
+		if app.customer.isLogin()
+			@redirect '/'
+		else
+			app.views.page.reset()
+			app.views.page.loadTemplate 'login'
+			app.views.page.load
+				menu:'login'
 
-
-app.controller.on 'route:order', ->
-	if app.models.customer.isLogin()
+	product: ->
+		app.views.page.reset()
+		app.views.page.loadCollection 'products', app.collections.products
+		app.views.page.loadTemplate 'product/list'
 		app.views.page.load
-			template:'order/index'
-			data:
-				url:'order/list'
-				type:'get'
-			menu:'order'
-		
-app.controller.on 'route:order-view', (order_id) ->
-	if app.models.customer.isLogin()
+			menu:'products'
+
+	productView: (product_id) ->
+		app.views.page.reset()
+		app.views.page.loadModel 'product', new app.models.product {id:product_id}
+		app.views.page.loadTemplate 'product/view'
 		app.views.page.load
-			template:'order/view'
-			data:
-				url:'order/view'
-				data:
-					id:order_id
-				type:'get'
-			menu:'order'
+			menu:'products'
+
+	cart:->
+		if app.customer.isLogin()
+			app.views.page.reset()
+			app.views.page.loadModel 'cart', app.models.cart
+			app.views.page.loadTemplate 'cart/cart'
+			app.views.page.load
+				menu:'cart'
+		else
+			@redirect '/login'
+
+	checkout:->
+		if app.customer.isLogin()
+			app.views.page.reset()
+			app.views.page.action = new Yulcom.View.Checkout
+			app.views.page.loadModel 'cart', app.models.cart
+			app.views.page.loadCollection 'address', app.collections.address
+			app.views.page.loadCollection 'cc', app.collections.cc
+			app.views.page.loadTemplate 'checkout/checkout'
+			app.views.page.callback app.views.page.action.init
+			app.views.page.load
+				menu:'cart'
+		else
+			@redirect '/login'
+
+	logout: ->
+		app.customer.logout()
+		location.href = '/'
 
 
 
-
-app.controller.on 'route:promotion', ->
-	if app.models.customer.isLogin()
-		app.views.page.load
-			template:'promotion/index'
-			data:
-				url:'coupon/list'
-				type:'get'
-			menu:'promotion'
-
-app.controller.on 'route:promotion-add', ->
-	if app.models.customer.isLogin()
-		app.views.page.load
-			template:'promotion/add'
-			menu:'promotion'
-
-app.controller.on 'route:analytic', ->
-	if app.models.customer.isLogin()
-		app.views.page.load
-			template:'analytic/index'
-			menu:'analytic'
-
-app.controller.on 'route:setting', ->
-	if app.models.customer.isLogin()
-		app.views.page.load
-			template:'setting/index'
-			menu:'setting'
-			
-app.controller.on 'route:home-redirect', ->
-	app.controller.redirect 'home'
-
-app.controller.on 'route:logout', ->
-	if app.models.customer.isLogin()
-		app.models.customer.logout()
-
-
-
-Backbone.history.start
-	pushState: true
 
 $ ->
 	$(".wrapper").on "click","a", (e) ->
 		# touchstart est aussi un click (300ms après click) ça doublerait l'action
 		href = $(this).attr "href"
 		if href and href.length > 1 && href.substring(0,3) != 'tel' && href.substring(0,4) != 'http' && href != '#nav'
-			app.controller.redirect href
+			app.router.redirect href
 			e.preventDefault()
 
 

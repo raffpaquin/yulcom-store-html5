@@ -1,12 +1,13 @@
-app.validator =
-	validateSizes: (params) ->
-		#We have sizes?
-		$sizes = $('.btn-size a' ,params.scope)
-		if $sizes.length > 0
-			$size_selected = $('.btn-size a.active' ,params.scope)
-			if $size_selected.length <= 0
-				$('.alert' ,params.scope).first().text('Please select a size').show 0
-				return false
-			else
-				$('.alert' ,params.scope).first().text('').hide 0
-		return true 
+app.validation =
+	email: (email) ->
+		email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)?
+
+	name: (name) ->
+		name.length >= 2
+
+	password: (password) ->
+		#password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)?
+		password.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)?
+
+	egals: (str1, str2) ->
+		str1 == str2

@@ -1,4 +1,4 @@
-ViewPage = Backbone.View.extend
+class Yulcom.View.Page extends Backbone.View
 
 	el:$('#content')
 	ressources:
@@ -10,8 +10,10 @@ ViewPage = Backbone.View.extend
 		template:0
 		collection:0
 		model:0
+		callback:[]
 
 	data:{}
+	action:{}
 
 
 	#initialize: ->
@@ -19,6 +21,7 @@ ViewPage = Backbone.View.extend
 
 	reset: ->
 		@data = {}
+		@action = {}
 		@ressources = 
 			template:null
 			collection:{}
@@ -27,26 +30,35 @@ ViewPage = Backbone.View.extend
 			template:0
 			collection:0
 			model:0
+			callback:[]
 
 	loadCollection: (key, collection) ->
 		@ressources.collection[key] = collection
-		@queue.collection++
-		@ressources.collection[key].fetch
-			success: ->
-				self = app.views.page
-				self.data[key] = collection.toJSON()
-				self.queue.collection--
-				self.render()
+
+		if typeof(collection.is_loaded) == 'undefined' or collection.is_loaded == false
+			@queue.collection++
+			@ressources.collection[key].fetch
+				success: ->
+					self = app.views.page
+					self.data[key] = collection.toJSON()
+					self.queue.collection--
+					self.render()
+		else
+			@data[key] = collection.toJSON()
 
 	loadModel: (key, model) ->
-		model.bind 'sync', ->
-			self = app.views.page
-			self.data[key] = model.toJSON()
-			self.queue.model--
-			self.render()
 		@ressources.model[key] = model
-		@queue.model++
-		@ressources.model[key].fetch()
+
+		if typeof(model.is_loaded) == 'undefined' or model.is_loaded == false
+			@queue.model++
+			@ressources.model[key].fetch
+				success: ->
+					self = app.views.page
+					self.data[key] = model.toJSON()
+					self.queue.model--
+					self.render()
+		else
+			@data[key] = model.toJSON()
 
 	loadTemplate: (template_id) ->
 		@ressources.template = template_id
@@ -56,9 +68,11 @@ ViewPage = Backbone.View.extend
 			self.queue.template--
 			self.render()
 
+	callback: (callback) ->
+		@queue.callback.push callback
+
 	load: (page) ->
 		$('body').addClass 'loading'
-
 
 		if page.menu
 			$('ul.menu li').removeClass 'active'
@@ -67,14 +81,16 @@ ViewPage = Backbone.View.extend
 		@render()
 
 	render: ->
-		num = new Date().getTime()
-		alert num+' - '+@queue.template
-		alert num+' - '+@queue.model
-		alert num+' - '+@queue.collection
 		if @queue.template == 0 and @queue.model == 0 and @queue.collection == 0 
 			console.log @data
 			@$el.html app.template.render @ressources.template, @data
 			$('body').removeClass 'loading'
 			$('body').scrollTop 0
+
+			$('input[type=textbox]').first().focus()
+
+			callback() for callback in @queue.callback
+
+
 
 

@@ -1,13 +1,70 @@
-
-
 <div class="login-box">
-	<div class='col-1-2'>
-		<form>
-			<input type="textbox" name="email" placeholder="Email" /><br/>
-			<input type="password" name="password" placeholder="Password" /><br/>
-			<a href="#" class="btn btn-green">Login</a> or <a href="">Create an account</a>
+
+	<div class="login-step login-step1">
+		<h1 style="margin-top:0px;">Lorem</h1>
+		<h2>Lorem ipsum dolor sit amet</h2>
+
+		<form onsubmit="app.customer.login.saveEmail(); return false;" action="">
+			
+			<div class="input-inline">
+				<input type="textbox" name="email" placeholder="Email" /> 
+				<input type="submit" class="btn btn-green" value="Join &raquo;" />
+			</div>
+		</form>
+
+
+		<div>
+			Already a member? <a href="#" onclick="app.customer.login.showLogin(); return false;">Login here</a> 
+		</div>
+	</div>
+
+	<div class="login-step login-step2" style="display:none;">
+		<h1 style="margin-top:0px;">Lorem</h1>
+		<h2>Lorem ipsum dolor sit amet</h2>
+
+		<form onsubmit="app.customer.login.savePassword(); return false;" action="">
+			
+			<input type="textbox" name="firstname" placeholder="Firstname" /> <br/>
+			<input type="textbox" name="lastname" placeholder="Lastname" /> <br/>
+			<input type="password" name="password" placeholder="Password" /> <br/>
+			<input type="password" name="password2" placeholder="Re-enter password" /> <br/>
+
+			<div style="margin:20px;">
+				<input type="submit" class="btn btn-green" value="Continue &raquo;" />
+			</div>
+			
+
 		</form>
 	</div>
-	<div class="col-2-2"></div>
-	<div class="clear"></div>
+
+	<div class="login-step login-step3" style="display:none;">
+		<h1 style="margin-top:0px;">Lorem</h1>
+		<h2>Lorem ipsum dolor sit amet</h2>
+
+		<form onsubmit="app.customer.login.login(); return false;" action="">
+			
+			<input type="textbox" name="email" placeholder="Email Address" /> <br/>
+			<input type="password" name="password" placeholder="Password" /> <br/>
+
+			<div style="margin:20px;">
+				<input type="submit" class="btn btn-green" value="Login &raquo;" />
+			</div>
+
+			<div>
+				New user? <a href="#" onclick="app.customer.login.showAccountCreation(); return false;">Create an account</a> 
+			</div>
+		</form>
+	</div>
+
+	<div class="login-step login-step4" style="display:none;">
+		<h1 style="margin-top:0px;">Welcome</h1>
+		<h2>Lorem ipsum dolor sit amet</h2>
+
+		<div style="margin:20px;">
+			<a href="/products" class="btn btn-green">View Products &raquo;</a>
+		</div>
+	</div>
+
+	<div class="alert alert-error"></div>
+
 </div>

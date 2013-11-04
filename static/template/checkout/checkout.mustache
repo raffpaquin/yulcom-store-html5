@@ -11,16 +11,16 @@
 	<div style="float:right; width:600px;">
 		<ul class="checkout-progress">
 			<li class="progress-shipping-address" class="active">
-				<a href="#" onclick="app.checkout.goTo('shipping-address'); return false;">Shipping Address</a>
+				<a href="#" onclick="app.views.page.action.goTo('shipping-address'); return false;">Shipping Address</a>
 			</li>
 			<li class="progress-billing-address">
-				<a href="#" onclick="app.checkout.goTo('billing-address'); return false;">Billing Address</a>
+				<a href="#" onclick="app.views.page.action.goTo('billing-address'); return false;">Billing Address</a>
 			</li>
 			<li class="progress-payment-method">
-				<a href="#" onclick="app.checkout.goTo('payment-method'); return false;">Payment Information</a>
+				<a href="#" onclick="app.views.page.action.goTo('payment-method'); return false;">Payment Information</a>
 			</li>
 			<li class="progress-review">
-				<a href="#" onclick="app.checkout.goTo('review'); return false;">Review</a>
+				<a href="#" onclick="app.views.page.action.goTo('review'); return false;">Review</a>
 			</li>
 		</ul>
 	</div>
@@ -34,50 +34,47 @@
 					<img src="http://tadose.ca/images/layout/square_map-icon.png" />
 				</div>
 
-				<div class="col-2-2">
-					
-					<form style="display:none;" class="address-form" onsubmit="return false;">
+				<div class="col-2-2 address-list {{#unless address}}list-empty{{/unless}}">
+					<form id="form-shipping-address" class="address-form" onsubmit="app.views.page.action.saveSection('shipping-address'); return false;">
 						<h2>
 							Add Shipping Address 
-							<a href="#" onclick="app.checkout.toggleForm('shipping-address'); return false;">&laquo; View All</a>
+							<a href="#" onclick="app.views.page.action.toggleForm('shipping-address'); return false;">
+								&laquo; View All
+							</a>
 						</h2>
+						<div class="alert alert-error" style="margin-bottom: 10px; width: 325px;"></div>
 						<input name="firstname" type="text" class="w2" placeholder="Firstname" />
-						<input type="text" class="w2"  placeholder="Lastname" /><br/>
-						<input type="text" class="w1" placeholder="Street" /><br/>
-						<input type="text" class="w1" placeholder="Street" /><br/>
-						<input type="text" class="w2" placeholder="City" />
-						<input type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
-						<input type="text" class="w2" placeholder="Country" />
-						<input type="text" class="w2" placeholder="State / Province" />
+						<input name="lastname" type="text" class="w2"  placeholder="Lastname" /><br/>
+						<input name="street1" type="text" class="w1" placeholder="Street" /><br/>
+						<input name="street2" type="text" class="w1" placeholder="Street" /><br/>
+						<input name="city" type="text" class="w2" placeholder="City" />
+						<input name="postal_code" type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
+						<input name="country" type="text" class="w2" placeholder="Country" />
+						<input name="province" type="text" class="w2" placeholder="State / Province" />
 						
 					</form>
 
-					<div class="form-list ">
+					<div class="form-list">
 						<h2>Select Shipping Address</h2>
 						<ul class="checkout-address-list">
-							<li onclick="app.checkout.saveSection('shipping-address'); return false;">
+							{{#each address}}
+							<li {{#compare ../cart.checkout.shipping_address '==' _id}}class="active"{{/compare}} data-address-id="{{_id}}" onclick="app.views.page.action.saveSection('shipping-address','{{_id}}'); return false;">
 								<label>
 									<input type="radio" />
-									8217 av de Gaspé<br/>
-									Montréal, Quebec. H2P 2J9
+									{{street1}}<br/>
+									{{#if street2}}{{street2}}<br/>{{/if}}
+									{{city}}, {{province}}. {{postal_code}}
 								</label>
 							</li>
-							<li class="active" onclick="app.checkout.saveSection('shipping-address'); return false;">
-								<label>
-									<input type="radio" />
-									160, rue Saint-Viateur Est<br/>
-									Bureau 600<br/>
-									Montréal, Quebec. H2P 2J9
-								</label>
-							</li>
-							<li class="add" onclick="app.checkout.toggleForm('shipping-address'); return false;">
+							{{/each}}
+							<li class="add" onclick="app.views.page.action.toggleForm('shipping-address'); return false;">
 								Add new
 							</li>
 						</ul>
 					</div>
 
 					<label class="same-as-shipping">
-						<input checked="checked" type="checkbox" /> Use same for Billing Address
+						<input checked="checked" name="same-as-shipping" type="checkbox" /> Use same for Billing Address
 					</label>
 
 				</div>
@@ -86,7 +83,7 @@
 
 				<div class="btn-group">
 					<a href="/cart" class="btn">Back to Cart</a>
-					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('shipping-address'); return false;">Continue &raquo;</a>
+					<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('shipping-address'); return false;">Continue &raquo;</a>
 				</div>
 			</li>
 			<li class="step-billing-address" style="display:none;">
@@ -94,9 +91,16 @@
 					<img style="margin-top: 100px;" src="http://tadose.ca/images/layout/square_map-icon.png" />
 				</div>
 
-				<div class="col-2-2">
-					<h2>New Billing Address</h2>
-					<form class="address-form" onsubmit="return false;">
+				<div class="col-2-2 address-list {{#unless address}}list-empty{{/unless}}">
+					<form id="form-billing-address" class="address-form" onsubmit="app.views.page.action.saveSection('billing-address'); return false;">
+						<h2>
+							Add Billing Address 
+							<a href="#" onclick="app.views.page.action.toggleForm('billing-address'); return false;">
+								&laquo; View All
+							</a>
+						</h2>
+
+
 						<input type="text" class="w2" placeholder="Firstname" />
 						<input type="text" class="w2"  placeholder="Lastname" /><br/>
 						<input type="text" class="w1" placeholder="Street" /><br/>
@@ -106,13 +110,34 @@
 						<input type="text" class="w2" placeholder="Country" />
 						<input type="text" class="w2" placeholder="State / Province" />
 					</form>
+
+					<div class="form-list">
+						<h2>Select Billing Address</h2>
+						<ul class="checkout-address-list">
+							{{#each address}}
+							<li {{#compare ../cart.checkout.billing_address '==' _id}}class="active"{{/compare}} data-address-id="{{_id}}" onclick="app.views.page.action.saveSection('billing-address','{{_id}}'); return false;">
+								<label>
+									{{street1}}<br/>
+									{{#if street2}}{{street2}}<br/>{{/if}}
+									{{city}}, {{province}}. {{postal_code}}
+								</label>
+							</li>
+							{{/each}}
+							<li class="add" onclick="app.views.page.action.toggleForm('billing-address'); return false;">
+								Add new
+							</li>
+						</ul>
+					</div>
+
 				</div>
+
+
 
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="#" class="btn" onclick="app.checkout.goTo('shipping-address'); return false;">Back</a>
-					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('billing-address'); return false;">Continue &raquo;</a>
+					<a href="#" class="btn" onclick="app.views.page.action.goTo('shipping-address'); return false;">Back</a>
+					<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('billing-address'); return false;">Continue &raquo;</a>
 				</div>
 			</li>
 			<li class="step-payment-method" style="display:none;">
@@ -125,7 +150,7 @@
 					<form style="display:none;" class="address-form" onsubmit="return false;">
 						<h2>
 							Add Payment Method 
-							<a href="#" onclick="app.checkout.toggleForm('payment-method'); return false;">&laquo; View All</a>
+							<a href="#" onclick="app.views.page.action.toggleForm('payment-method'); return false;">&laquo; View All</a>
 						</h2>
 						<form class="address-form" onsubmit="return false;">
 						<input type="text" class="cc-num w1" placeholder="Credit Card Number" /><br/>
@@ -140,21 +165,21 @@
 					<div class="form-list ">
 						<h2>Select Payment Method</h2>
 						<ul class="checkout-cc-list">
-							<li onclick="app.checkout.saveSection('payment-method'); return false;">
+							<li onclick="app.views.page.action.saveSection('payment-method'); return false;">
 								<label>
 									VISA Credit Card<br/>
 									XXXX 4567 &mdash; Expiration 12/2013
 								</label>
 								<img src="/static/images/cc/visa.png" />
 							</li>
-							<li class="active" onclick="app.checkout.saveSection('payment-method'); return false;">
+							<li class="active" onclick="app.views.page.action.saveSection('payment-method'); return false;">
 								<label>
 									MasterCard Credit Card<br/>
 									XXXX 3928 &mdash; Expiration 13/2015
 								</label>
 								<img src="/static/images/cc/mastercard.png" />
 							</li>
-							<li class="add" onclick="app.checkout.toggleForm('payment-method'); return false;">
+							<li class="add" onclick="app.views.page.action.toggleForm('payment-method'); return false;">
 								Add new
 							</li>
 						</ul>
@@ -167,8 +192,8 @@
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="#" class="btn" onclick="app.checkout.goTo('billing-address'); return false;">Back</a>
-					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('payment-method'); return false;">Continue &raquo;</a>
+					<a href="#" class="btn" onclick="app.views.page.action.goTo('billing-address'); return false;">Back</a>
+					<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('payment-method'); return false;">Continue &raquo;</a>
 				</div>
 			</li>
 			<li class="step-review" style="display:none;">
@@ -190,8 +215,8 @@
 				<div class="clear"></div>
 
 				<div class="btn-group">
-					<a href="#" class="btn" onclick="app.checkout.goTo('payment-method'); return false;">Back</a>
-					<a href="#" class="btn btn-green" onclick="app.checkout.saveSection('review'); return false;">Process &raquo;</a>
+					<a href="#" class="btn" onclick="app.views.page.action.goTo('payment-method'); return false;">Back</a>
+					<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('review'); return false;">Process &raquo;</a>
 				</div>
 			</li>
 		</ul>

@@ -1,0 +1,16 @@
+<a class="logo" href="/">
+	my<span style="font-weight: 700;">company</span>.
+</a>
+
+<ul class="menu">
+	<li data-href="products"><a href="/products">Products</a></li>
+	<li data-href="refill"><a href="/refill">Auto-Refill</a></li>
+	<li data-href="cart"><a href="/cart">Cart</a></li>
+	<li data-href="help"><a href="/help">Help</a></li>
+
+	{{#if customer.is_login}}
+		<li data-href="login"><a href="/logout">Logout</a></li>
+	{{else}}
+		<li data-href="login"><a href="/login">Join</a></li>
+	{{/if}}
+</ul>

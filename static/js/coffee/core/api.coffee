@@ -1,6 +1,4 @@
 app.api = 
-	defaults:
-		url:'http://local.api.yulcom.ca/v1.0/terminal/'
 	post: (obj) ->
 		
 		if obj.data
@@ -8,44 +6,18 @@ app.api =
 				obj.data = @stringToJson obj.data
 
 		#default Values
-		obj.url = @defaults.url+obj.url
+		obj.url = app.get('api')+obj.url
 		obj.dataType = 'json'
 
-		#Progress bar
+		#if app.customer.isLogin()
+		#	obj.username = app.customer.get 'session_key'
+		#	obj.password = app.customer.get 'session_password'
 
-		obj.beforeSend = (xhr) ->
-			$('#progress').stop()
-			$('#progress').animate 
-				width:'0%'
-			,0
-			if app.models.customer.credentials[0] && app.models.customer.credentials[1]
-				xhr.setRequestHeader 'Authorization', 'Basic ' + window.btoa(app.models.customer.credentials.join(':'))
+		#console.log obj
 
-		obj.xhr = ->
-			xhr = $.ajaxSettings.xhr()
-			if xhr instanceof window.XMLHttpRequest
-				if xhr.upload
-					xhr.upload.addEventListener 'progress', (evt) ->
-						if evt.lengthComputable
-							percentComplete = evt.loaded / evt.total * 100
-							$('#progress').animate 
-								width:percentage+'%'
-							,200
-					,false
-				
-				xhr.addEventListener 'progress', (evt) ->
-					if evt.lengthComputable
-						percentComplete = evt.loaded / evt.total * 100
-				,false
-
-			
-			xhr  
-
-		obj.complete = () ->
-			$('#progress').stop()
-			$('#progress').animate 
-				width:'100%'
-			,300
+		if app.customer.isLogin()
+			obj.beforeSend = (xhr) ->
+				xhr.setRequestHeader('Authorization', 'Basic ' + window.btoa(app.customer.get('session_key')+':'+app.customer.get('session_password')))
 		
 		$.ajax obj
 

@@ -1,6 +1,6 @@
 $ ->
 	app.on 'all', app.analytics.trackEvent
-	app.controller.on 'all', app.analytics.trackPageView
+	app.router.on 'all', app.analytics.trackPageView
 	#app.collections.cart.on 'all', app.analytics.trackEvent
 
 app.analytics =

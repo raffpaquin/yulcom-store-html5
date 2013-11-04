@@ -17,10 +17,12 @@
 	color:#FFF;
 	text-decoration: none;
 	text-shadow:none !important;
+	.no-select;
 
 	&:hover{
 		opacity: 0.8;
 		cursor: pointer;
+		text-decoration: none;
 	}
 
 	&.btn-red{
@@ -29,8 +31,15 @@
 	}
 
 	&.btn-green{
-		background: #2ebf6a;
+		background: @green;
 		border-bottom-color: #1e944f;
+
+		&.loading{
+			background: @green url('/static/images/loading.gif') center no-repeat;
+			background-size:100px;
+			opacity: 0.5;
+			color:transparent; 
+		}
 	}
 }
 
@@ -53,4 +62,32 @@
 
 strong{
 	font-weight: 800;
+}
+
+a{
+	color:#3366CC;
+	text-decoration: none;
+
+	&:hover{
+		text-decoration: underline;
+	}
+}
+
+
+.alert{
+
+	background: #eee;
+	padding:15px;
+	font-size:12px;
+	text-transform: uppercase;
+	text-shadow:0 1px #FFF;
+	color:#999;
+	border-radius: 2px;
+	display:none;
+
+	&.alert-error{
+		background: #f2dede;
+		color:#b94a48;
+	}
+
 }

@@ -1,2 +1,1 @@
-ModelCustomerCc = Backbone.Model.extend
-	urlRoot:app.get('api')+'/customer/cc'
+class Yulcom.Model.CustomerCC extends Yulcom.Model.Base

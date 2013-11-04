@@ -9,13 +9,10 @@
 
 <div class="page page-product">
 	<h1>{{product.name}}</h1>
-
+	
 	<img src="{{product.image}}">
-
-
-
+	
 	<div>
-		
-		<a href="#" class="btn btn-green">Add to Cart</a>
+		<a href="#" onclick="app.models.cart.item.add('{{product.id}}'); return false;" class="btn btn-green">Add to Cart</a>
 	</div>
 </div>

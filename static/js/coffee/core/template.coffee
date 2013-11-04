@@ -2,30 +2,15 @@ app.template =
 	engines: []
 	requested: []
 	callback: {}
-	# render: (template_id,object = {}) ->
-	# 	console.group 'Rendering template '+template_id if app.debug
-	# 	if not @engines[template_id]
-	# 		html = $('[data-template-id='+template_id+']').html()
-	# 		if html
-	# 			console.log 'Compiling template '+template_id if app.debug
-	# 			@engines[template_id] = Handlebars.compile $('[data-template-id='+template_id+']').html()
-	# 		else
-	# 			console.log 'Invalid Template - '+template_id if app.debug
-	# 			console.groupEnd '' if app.debug
-	# 			return
-
-	# 	obj = $.extend {customer:app.models.customer.toJSON()}, object
-	# 	console.log obj if app.debug
-	# 	console.groupEnd '' if app.debug
-	# 	@engines[template_id] obj
 
 	render: (template_id, object) ->
 		#Base Object
-	 	#object = $.extend {customer:app.models.customer.toJSON()}, object
-	 	if @engines[template_id]
-	 		@engines[template_id] object
-	 	else
-	 		alert 'Unknow Template Engine'
+		object = $.extend {customer:app.customer.toJSON()}, object
+		if @engines[template_id]
+			console.log object
+			@engines[template_id] object
+		else
+			alert 'Unknow Template Engine'
 
 	block: (template_id, jquery_container) ->
 		content_html = @render template_id

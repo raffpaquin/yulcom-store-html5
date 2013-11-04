@@ -183,4 +183,16 @@
 		display: block;
 		padding: 10px 0;
 	}
+
+
+	.address-list{
+		form{ display:none; }
+		.form-list{display:block;}
+		h2 a{display:inline;}
+
+		&.list-empty{
+			form{ display:block; }
+			.form-list, h2 a{display:none;}
+		}
+	}
 }
