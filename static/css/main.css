@@ -589,19 +589,55 @@ input[type=text]:focus {
   display: block;
   padding: 10px 0;
 }
-.page-checkout .address-list form {
+.page-checkout .address-list form,
+.page-checkout .cc-list form {
   display: none;
 }
-.page-checkout .address-list .form-list {
+.page-checkout .address-list .form-list,
+.page-checkout .cc-list .form-list {
   display: block;
 }
-.page-checkout .address-list h2 a {
+.page-checkout .address-list h2 a,
+.page-checkout .cc-list h2 a {
   display: inline;
 }
-.page-checkout .address-list.list-empty form {
+.page-checkout .address-list.list-empty form,
+.page-checkout .cc-list.list-empty form {
   display: block;
 }
 .page-checkout .address-list.list-empty .form-list,
-.page-checkout .address-list.list-empty h2 a {
+.page-checkout .cc-list.list-empty .form-list,
+.page-checkout .address-list.list-empty h2 a,
+.page-checkout .cc-list.list-empty h2 a {
   display: none;
+}
+.page-checkout .table-totals {
+  width: 100%;
+  text-align: left;
+  line-height: 2;
+  font-size: 12px;
+}
+.page-checkout .review-details {
+  font-size: 12px;
+  text-align: left;
+  color: #777;
+}
+.page-checkout .review-details li {
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+.page-checkout .review-details li span {
+  font-size: 16px;
+  color: #333;
+}
+.page-order-confirmation p {
+  padding: 20px 150px;
+}
+.page-order-confirmation p.order-info {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.page-order-confirmation .cta {
+  margin: 40px;
 }

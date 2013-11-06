@@ -40,6 +40,7 @@ app.init = () ->
 	#Controllers
 	@router = new Yulcom.Router()	
 
+	Stripe.setPublishableKey app.get 'stripe_public_key'
 
 	@
 

@@ -5,7 +5,5 @@ class Yulcom.Collection.Product extends Yulcom.Collection.Base
 	parse: (response) ->
 		@is_loaded = true
 		return _.map response.data.items, (obj) ->
-			obj.id = obj._id.$id
-			delete obj._id
 			delete obj._
 			return obj

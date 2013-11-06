@@ -60,6 +60,9 @@ class Yulcom.View.Page extends Backbone.View
 		else
 			@data[key] = model.toJSON()
 
+	loadJSON: (key, obj)->
+		@data[key] = obj
+
 	loadTemplate: (template_id) ->
 		@ressources.template = template_id
 		@queue.template++

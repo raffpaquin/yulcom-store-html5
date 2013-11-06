@@ -1,1 +1,4 @@
-class Yulcom.Model.CustomerCC extends Yulcom.Model.Base
+class Yulcom.Model.CustomerCc extends Yulcom.Model.Base
+
+	url: ->
+		app.get('api')+'customer/cc'

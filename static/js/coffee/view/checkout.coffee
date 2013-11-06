@@ -38,7 +38,7 @@ class Yulcom.View.Checkout extends Yulcom.View.Page
 			opacity:0
 			left:(200 * delta) + 'px'
 		,200, 'swing', ->
-			$('.checkout-panel li').hide 0
+			$('.checkout-panel li.step').hide 0
 			$('.checkout-progress li').removeClass 'active'
 			$('.checkout-progress li.progress-'+section).addClass 'active'
 			$('.checkout-panel li.step-'+section).show 0
@@ -77,15 +77,43 @@ class Yulcom.View.Checkout extends Yulcom.View.Page
 				else
 					#Only push address to checkout endpoint
 					app.views.page.action.saveShippingAddress data
-
-
-				
 			when 'billing-address' 
+				#TODO
 				@goTo 'payment-method'
 			when 'payment-method' 
-				@goTo 'review'
+				app.load true
+
+				if data == false
+					#Create new cc
+					#number,cvc,exp_month,exp_year
+
+					data = app.api.stringToJson $('form#form-payment').serialize()
+					app.views.page.action.saveCc data, (model, response) ->
+						if 'success' == response.status
+							app.views.page.action.saveCcCheckout response.data.cc_id
+						else
+							app.load false
+							app.error response.message
+				else
+					app.views.page.action.saveCcCheckout data
 			when 'review' 
-				alert 'ORDER BITCHES!'
+				app.load true
+				app.api.post
+					url:'cart/order'
+					success: (response) ->
+						if 'success' == response.status
+							#Load a new page
+							app.views.page.reset()
+							app.views.page.loadJSON 'order', response.data
+							app.views.page.loadTemplate 'checkout/confirm'
+							app.views.page.load
+								menu:'cart'
+						else
+							app.error response.message
+						app.load false
+					error: (response) ->
+						app.error()
+						app.load false
 
 	saveAddress: (addressData, callback) ->
 		shippingAddress = new Yulcom.Model.CustomerAddress()
@@ -115,6 +143,46 @@ class Yulcom.View.Checkout extends Yulcom.View.Page
 				app.load false
 			error: (response) ->
 				app.error()
+
+
+
+	saveCc: (ccData, callback) ->
+		ccData.number = ccData.number.replace /\+/g,''
+		window.Stripe.createToken ccData, (code, response) ->
+			if response.error
+				app.error response.error.message, 'form#form-payment'
+				$('form#form-payment input[name='+response.error.param+']').select()
+				app.load false
+			else
+				cc = new Yulcom.Model.CustomerCc()
+				cc.save
+					cc:
+						token:response.id
+				,
+					success: callback
+					error: (response) ->
+						app.error()
+						app.load false
+					wait: true
+
+
+	saveCcCheckout: (token_id) ->
+		#Push to address_id to checkout	
+		app.api.post
+			url:'cart/cc'
+			data:
+				cc_id:token_id
+			success: (response) ->
+				if 'success' == response.status
+					app.views.page.action.goTo 'review'
+				else
+					app.error response.message
+				app.load false
+			error: (response) ->
+				app.error()
+				app.load false
+
+
 
 	toggleForm: (section) ->
 		$form = $ 'form', '.step-'+section
