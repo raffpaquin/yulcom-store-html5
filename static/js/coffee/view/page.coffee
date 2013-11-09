@@ -3,8 +3,10 @@ class Yulcom.View.Page extends Backbone.View
 	el:$('#content')
 	ressources:
 		template:null
-		collection:[]
-		model:[]
+		collection:{}
+		model:{}
+		sub_view:{}
+		title:null
 
 	queue:
 		template:0
@@ -16,9 +18,6 @@ class Yulcom.View.Page extends Backbone.View
 	action:{}
 
 
-	#initialize: ->
-	#	@render()
-
 	reset: ->
 		@data = {}
 		@action = {}
@@ -26,6 +25,8 @@ class Yulcom.View.Page extends Backbone.View
 			template:null
 			collection:{}
 			model:{}
+			sub_view:{}
+			title:null
 		queue:
 			template:0
 			collection:0
@@ -71,6 +72,16 @@ class Yulcom.View.Page extends Backbone.View
 			self.queue.template--
 			self.render()
 
+	loadSubView: (selector,template_id) ->
+		@ressources.sub_view[template_id] =
+			template:template_id
+			selector:selector
+		@queue.template++
+		app.template.loadTemplateHtml template_id, (response) ->
+			self = app.views.page
+			self.queue.template--
+			self.render()
+
 	callback: (callback) ->
 		@queue.callback.push callback
 
@@ -85,15 +96,35 @@ class Yulcom.View.Page extends Backbone.View
 
 	render: ->
 		if @queue.template == 0 and @queue.model == 0 and @queue.collection == 0 
-			console.log @data
 			@$el.html app.template.render @ressources.template, @data
+
+			self = @
+			$.each @ressources.sub_view, (key, item) ->
+				self.refreshSubView key
+
 			$('body').removeClass 'loading'
 			$('body').scrollTop 0
 
 			$('input[type=textbox]').first().focus()
 
+			if @ressources.title
+				app.router._updateTitle app.template.renderFromStringTemplate @ressources.title, @data
+
 			callback() for callback in @queue.callback
 
+	title: (title) ->
+		@ressources.title = title
+
+	refreshModel: (key) ->
+		@data[key] = @ressources.model[key].toJSON()
+
+	refreshSubView: (key) ->
+		item = @ressources.sub_view[key]
+		if item
+			$(item.selector).html app.template.render item.template, @data
+
+	refreshCollection: (key) ->
+		@data[key] = @ressources.collection[key].toJSON()
 
 
 

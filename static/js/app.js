@@ -5,7 +5,7 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   window.app = {
-    debug: false,
+    debug: true,
     collections: {},
     models: {},
     views: {},
@@ -108,8 +108,10 @@
 
     Page.prototype.ressources = {
       template: null,
-      collection: [],
-      model: []
+      collection: {},
+      model: {},
+      sub_view: {},
+      title: null
     };
 
     Page.prototype.queue = {
@@ -129,7 +131,9 @@
       this.ressources = {
         template: null,
         collection: {},
-        model: {}
+        model: {},
+        sub_view: {},
+        title: null
       };
       return {
         queue: {
@@ -192,6 +196,20 @@
       });
     };
 
+    Page.prototype.loadSubView = function(selector, template_id) {
+      this.ressources.sub_view[template_id] = {
+        template: template_id,
+        selector: selector
+      };
+      this.queue.template++;
+      return app.template.loadTemplateHtml(template_id, function(response) {
+        var self;
+        self = app.views.page;
+        self.queue.template--;
+        return self.render();
+      });
+    };
+
     Page.prototype.callback = function(callback) {
       return this.queue.callback.push(callback);
     };
@@ -206,13 +224,19 @@
     };
 
     Page.prototype.render = function() {
-      var callback, _i, _len, _ref1, _results;
+      var callback, self, _i, _len, _ref1, _results;
       if (this.queue.template === 0 && this.queue.model === 0 && this.queue.collection === 0) {
-        console.log(this.data);
         this.$el.html(app.template.render(this.ressources.template, this.data));
+        self = this;
+        $.each(this.ressources.sub_view, function(key, item) {
+          return self.refreshSubView(key);
+        });
         $('body').removeClass('loading');
         $('body').scrollTop(0);
         $('input[type=textbox]').first().focus();
+        if (this.ressources.title) {
+          app.router._updateTitle(app.template.renderFromStringTemplate(this.ressources.title, this.data));
+        }
         _ref1 = this.queue.callback;
         _results = [];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
@@ -221,6 +245,26 @@
         }
         return _results;
       }
+    };
+
+    Page.prototype.title = function(title) {
+      return this.ressources.title = title;
+    };
+
+    Page.prototype.refreshModel = function(key) {
+      return this.data[key] = this.ressources.model[key].toJSON();
+    };
+
+    Page.prototype.refreshSubView = function(key) {
+      var item;
+      item = this.ressources.sub_view[key];
+      if (item) {
+        return $(item.selector).html(app.template.render(item.template, this.data));
+      }
+    };
+
+    Page.prototype.refreshCollection = function(key) {
+      return this.data[key] = this.ressources.collection[key].toJSON();
     };
 
     return Page;
@@ -316,6 +360,10 @@
       }, 200, 'swing', function() {
         $('.checkout-panel li.step').hide(0);
         $('.checkout-progress li').removeClass('active');
+        $('.checkout-progress li.progress-' + section).removeClass('not-ready');
+        if (section === 'payment-method') {
+          $('.checkout-progress li.progress-billing-address').removeClass('not-ready');
+        }
         $('.checkout-progress li.progress-' + section).addClass('active');
         $('.checkout-panel li.step-' + section).show(0);
         $('.checkout-panel').css({
@@ -342,8 +390,8 @@
       switch (section) {
         case 'shipping-address':
           app.load(true);
-          if (data === false) {
-            data = app.api.stringToJson($('form#form-shipping-address').serialize());
+          if ($('.step-shipping-address form').is(':visible')) {
+            data = app.api.stringToJson($('form#form-shipping-address').serialize().replace(/\+/g, '%20'));
             return app.views.page.action.saveAddress(data, function(model, response) {
               if ('success' === response.status) {
                 return app.views.page.action.saveShippingAddress(response.data.address_id);
@@ -353,15 +401,51 @@
               }
             });
           } else {
-            return app.views.page.action.saveShippingAddress(data);
+            if (data === false) {
+              app.load(false);
+              if ($('.step-shipping-address .form-list li.active').length > 0) {
+                if ($('input[name=same-as-shipping]').is(':checked')) {
+                  return app.views.page.action.goTo('payment-method');
+                } else {
+                  return app.views.page.action.goTo('billing-address');
+                }
+              } else {
+                return app.error('Please select an address', '.step-shipping-address .form-list');
+              }
+            } else {
+              return app.views.page.action.saveShippingAddress(data);
+            }
           }
           break;
         case 'billing-address':
-          return this.goTo('payment-method');
+          app.load(true);
+          if ($('.step-billing-address form').is(':visible')) {
+            data = app.api.stringToJson($('form#form-billing-address').serialize().replace(/\+/g, '%20'));
+            return app.views.page.action.saveAddress(data, function(model, response) {
+              if ('success' === response.status) {
+                return app.views.page.action.saveBillingAddress(response.data.address_id);
+              } else {
+                app.load(false);
+                return app.error(response.message);
+              }
+            });
+          } else {
+            if (data === false) {
+              app.load(false);
+              if ($('.step-billing-address .form-list li.active').length > 0) {
+                return app.views.page.action.goTo('payment-method');
+              } else {
+                return app.error('Please select an address', '.step-billing-address .form-list');
+              }
+            } else {
+              return app.views.page.action.saveBillingAddress(data);
+            }
+          }
+          break;
         case 'payment-method':
           app.load(true);
-          if (data === false) {
-            data = app.api.stringToJson($('form#form-payment').serialize());
+          if ($('.step-payment-method form').is(':visible')) {
+            data = app.api.stringToJson($('form#form-payment').serialize().replace(/\+/g, '%20'));
             return app.views.page.action.saveCc(data, function(model, response) {
               if ('success' === response.status) {
                 return app.views.page.action.saveCcCheckout(response.data.cc_id);
@@ -371,7 +455,16 @@
               }
             });
           } else {
-            return app.views.page.action.saveCcCheckout(data);
+            if (data === false) {
+              app.load(false);
+              if ($('.step-payment-method .form-list li.active').length > 0) {
+                return app.views.page.action.goTo('review');
+              } else {
+                return app.error('Please select a payment method', '.step-payment-method .form-list');
+              }
+            } else {
+              return app.views.page.action.saveCcCheckout(data);
+            }
           }
           break;
         case 'review':
@@ -402,10 +495,15 @@
     Checkout.prototype.saveAddress = function(addressData, callback) {
       var shippingAddress;
       shippingAddress = new Yulcom.Model.CustomerAddress();
-      return shippingAddress.save({
-        address: addressData
-      }, {
-        success: callback,
+      return shippingAddress.save(addressData, {
+        success: function(model, response) {
+          if ('success' === response.status) {
+            model.set('_id', response.data.address_id);
+            app.collections.address.add(model);
+            app.views.page.refreshCollection('address');
+          }
+          return callback(model, response);
+        },
         error: function(response) {
           app.error('Unknown server error');
           return app.load(false);
@@ -421,12 +519,44 @@
           address_id: addressId
         },
         success: function(response) {
+          var sameAsShippingForBilling;
           if ('success' === response.status) {
-            if ($('input[name=same-as-shipping]').is(':checked')) {
+            sameAsShippingForBilling = $('input[name=same-as-shipping]').is(':checked');
+            app.models.cart.set(response.data);
+            app.views.page.refreshModel('cart');
+            app.views.page.refreshSubView('checkout/step_billing_address');
+            app.views.page.refreshSubView('checkout/step_shipping_address');
+            app.views.page.refreshSubView('checkout/step_review');
+            if (sameAsShippingForBilling) {
               app.views.page.action.goTo('payment-method');
             } else {
               app.views.page.action.goTo('billing-address');
             }
+          } else {
+            app.error(response.message);
+          }
+          return app.load(false);
+        },
+        error: function(response) {
+          return app.error();
+        }
+      });
+    };
+
+    Checkout.prototype.saveBillingAddress = function(addressId, callback) {
+      return app.api.post({
+        url: 'cart/billing-address',
+        data: {
+          address_id: addressId
+        },
+        success: function(response) {
+          if ('success' === response.status) {
+            app.models.cart.set(response.data);
+            app.views.page.refreshModel('cart');
+            app.views.page.refreshSubView('checkout/step_billing_address');
+            app.views.page.refreshSubView('checkout/step_shipping_address');
+            app.views.page.refreshSubView('checkout/step_review');
+            app.views.page.action.goTo('payment-method');
           } else {
             app.error(response.message);
           }
@@ -449,11 +579,16 @@
         } else {
           cc = new Yulcom.Model.CustomerCc();
           return cc.save({
-            cc: {
-              token: response.id
-            }
+            token: response.id
           }, {
-            success: callback,
+            success: function(model, response) {
+              if ('success' === response.status) {
+                model.set('_id', response.data.cc_id);
+                app.collections.cc.add(model);
+                app.views.page.refreshCollection('cc');
+              }
+              return callback(model, response);
+            },
             error: function(response) {
               app.error();
               return app.load(false);
@@ -472,6 +607,10 @@
         },
         success: function(response) {
           if ('success' === response.status) {
+            app.models.cart.set(response.data);
+            app.views.page.refreshModel('cart');
+            app.views.page.refreshSubView('checkout/step_payment');
+            app.views.page.refreshSubView('checkout/step_review');
             app.views.page.action.goTo('review');
           } else {
             app.error(response.message);
@@ -519,11 +658,21 @@
         customer: app.customer.toJSON()
       }, object);
       if (this.engines[template_id]) {
-        console.log(object);
+        if (app.debug) {
+          console.log(object, template_id);
+        }
         return this.engines[template_id](object);
       } else {
-        return alert('Unknow Template Engine');
+        return alert('Unknow Template Engine [' + template_id + ']');
       }
+    },
+    renderFromStringTemplate: function(template_string, object) {
+      var template;
+      object = $.extend({
+        customer: app.customer.toJSON()
+      }, object);
+      template = Handlebars.compile(template_string);
+      return template(object);
     },
     block: function(template_id, jquery_container) {
       var $container, content_html;
@@ -938,7 +1087,7 @@
           return $('.login-box .login-step1').fadeOut(200, function() {
             $('.login-box .login-step2').fadeIn(200);
             $('.login-step2 input[type=textbox]').first().focus();
-            return app.customer.login.isLoading(false);
+            return app.load(false);
           });
         } else {
           app.error('Invalid Email Address', '.login-box');
@@ -989,20 +1138,19 @@
             }
           },
           success: function(response) {
+            app.load(false);
             if (response.status === 'success') {
               app.customer.login.saveSessionInfo(response.data.session_id, response.data.session_key, response.data.customer_details);
               return $('.login-box .login-step2').fadeOut(200, function() {
-                $('.login-box .login-step4').fadeIn(200);
-                return app.customer.login.isLoading(false);
+                return $('.login-box .login-step4').fadeIn(200);
               });
             } else {
-              app.error(response.message);
-              return app.customer.login.isLoading(false);
+              return app.error(response.message);
             }
           },
           error: function(response) {
             app.error('Unknow server error');
-            return app.customer.login.isLoading(false);
+            return app.load(false);
           }
         });
       },
@@ -1011,7 +1159,7 @@
         return $('.login-box .login-step1').fadeOut(200, function() {
           $('.login-box .login-step3').fadeIn(200);
           $('.login-step3 input[type=textbox]').first().focus();
-          return app.customer.login.isLoading(false);
+          return app.load(false);
         });
       },
       showAccountCreation: function() {
@@ -1019,7 +1167,7 @@
         return $('.login-box .login-step3').fadeOut(200, function() {
           $('.login-box .login-step1').fadeIn(200);
           $('.login-step1 input[type=textbox]').first().focus();
-          return app.customer.login.isLoading(false);
+          return app.load(false);
         });
       },
       saveSessionInfo: function(k, p, d) {
@@ -1251,6 +1399,7 @@
     Router.prototype.home = function() {
       app.views.page.reset();
       app.views.page.loadTemplate('index');
+      app.views.page.title('Home | Yulcom Demo');
       return app.views.page.load({
         menu: 'index'
       });
@@ -1262,6 +1411,7 @@
       } else {
         app.views.page.reset();
         app.views.page.loadTemplate('login');
+        app.views.page.title('Login | Yulcom Demo');
         return app.views.page.load({
           menu: 'login'
         });
@@ -1272,6 +1422,7 @@
       app.views.page.reset();
       app.views.page.loadCollection('products', app.collections.products);
       app.views.page.loadTemplate('product/list');
+      app.views.page.title('Products | Yulcom Demo');
       return app.views.page.load({
         menu: 'products'
       });
@@ -1283,6 +1434,7 @@
         id: product_id
       }));
       app.views.page.loadTemplate('product/view');
+      app.views.page.title('{{product.name}} | Products | Yulcom Demo');
       return app.views.page.load({
         menu: 'products'
       });
@@ -1293,6 +1445,7 @@
         app.views.page.reset();
         app.views.page.loadModel('cart', app.models.cart);
         app.views.page.loadTemplate('cart/cart');
+        app.views.page.title('Cart | Yulcom Demo');
         return app.views.page.load({
           menu: 'cart'
         });
@@ -1309,6 +1462,11 @@
         app.views.page.loadCollection('address', app.collections.address);
         app.views.page.loadCollection('cc', app.collections.cc);
         app.views.page.loadTemplate('checkout/checkout');
+        app.views.page.loadSubView('li.step-shipping-address', 'checkout/step_shipping_address');
+        app.views.page.loadSubView('li.step-billing-address', 'checkout/step_billing_address');
+        app.views.page.loadSubView('li.step-payment-method', 'checkout/step_payment');
+        app.views.page.loadSubView('li.step-review', 'checkout/step_review');
+        app.views.page.title('Checkout | Yulcom Demo');
         app.views.page.callback(app.views.page.action.init);
         return app.views.page.load({
           menu: 'cart'
@@ -1321,6 +1479,10 @@
     Router.prototype.logout = function() {
       app.customer.logout();
       return location.href = '/';
+    };
+
+    Router.prototype._updateTitle = function(title) {
+      return $('title').text(title);
     };
 
     return Router;

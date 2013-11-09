@@ -1,0 +1,54 @@
+<div class="col-1-2">&nbsp;</div>
+
+<div class="col-2-2 address-list {{#unless address}}list-empty{{/unless}}">
+	<form id="form-billing-address" class="address-form" onsubmit="app.views.page.action.saveSection('billing-address'); return false;">
+		<h2>
+			Add Billing Address 
+			<a href="#" onclick="app.views.page.action.toggleForm('billing-address'); return false;">
+				&laquo; View All
+			</a>
+		</h2>
+
+		<div class="alert alert-error" style="margin-bottom: 10px; width: 325px;"></div>
+		<input name="firstname" type="text" class="w2" placeholder="Firstname" />
+		<input name="lastname" type="text" class="w2"  placeholder="Lastname" /><br/>
+		<input name="street1" type="text" class="w1" placeholder="Street" /><br/>
+		<input name="street2" type="text" class="w1" placeholder="Street" /><br/>
+		<input name="city" type="text" class="w2" placeholder="City" />
+		<input name="postal_code" type="text" class="w2" placeholder="Zip / Postal Code" /><br/>
+		<input name="country" type="text" class="w2" placeholder="Country" />
+		<input name="province" type="text" class="w2" placeholder="State / Province" />
+	
+	</form>
+
+	<div class="form-list">
+		<h2>Select Billing Address</h2>
+		<div class="alert alert-error"></div>
+		<ul class="checkout-address-list">
+			{{#each address}}
+			<li {{#compare ../cart.checkout.billing_address '==' _id}}class="active"{{/compare}} data-address-id="{{_id}}" onclick="app.views.page.action.saveSection('billing-address','{{_id}}'); return false;">
+				<label>
+					{{street1}}<br/>
+					{{#if street2}}{{street2}}<br/>{{/if}}
+					{{city}}, {{province}}. {{postal_code}}
+				</label>
+			</li>
+			{{/each}}
+			<li class="add" onclick="app.views.page.action.toggleForm('billing-address'); return false;">
+				Add new
+			</li>
+		</ul>
+	</div>
+
+</div>
+
+
+
+<div class="clear"></div>
+
+<div class="btn-group">
+	<a href="#" class="btn" onclick="app.views.page.action.goTo('shipping-address'); return false;">Back</a>
+	<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('billing-address'); return false;">Continue &raquo;</a>
+</div>
+
+

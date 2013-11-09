@@ -1,5 +1,5 @@
 window.app =
-	debug:false
+	debug:true
 	collections:{}
 	models:{}
 	views:{}

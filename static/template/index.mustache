@@ -1,13 +1,22 @@
-<h1>Welcome to mycompany</h1>
-<h2>Lorem Ipsum sit dam.</h2>
+
+<div class="page page-homepage">
+	<h1>Welcome to demo shop</h1>
+	<h2>Lorem Ipsum sit dam.</h2>
 
 
-<p style="margin-top:100px;">
-	<a href="/login">
-		<img src="static/images/product.png">
-	</a>
-</p>
+	<!--p style="margin-top:100px;">
+		<a href="/login">
+			<img src="static/images/product.png">
+		</a>
+	</p-->
 
-<p style="margin-top:100px;">
-	<a href="/login" class="btn btn-green">Join now</a>
-</p>
+	{{#if customer.is_login}}
+		<p style="margin-top:100px;">
+			<a href="/products" class="btn btn-green">View Products</a>
+		</p>
+	{{else}}
+		<p style="margin-top:100px;">
+			<a href="/login" class="btn btn-green">Join now</a>
+		</p>
+	{{/if}}
+</div>

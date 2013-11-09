@@ -40,7 +40,7 @@ class Yulcom.Model.Customer extends Backbone.Model
 				$('.login-box .login-step1').fadeOut 200, ->
 					$('.login-box .login-step2').fadeIn 200
 					$('.login-step2 input[type=textbox]').first().focus()
-					app.customer.login.isLoading false
+					app.load false
 			else
 				app.error 'Invalid Email Address', '.login-box'
 				$('.login-step1 input[type=textbox]').first().focus()
@@ -91,17 +91,16 @@ class Yulcom.Model.Customer extends Backbone.Model
 
 
 				success: (response) ->
+					app.load false
 					if response.status == 'success'
 						app.customer.login.saveSessionInfo response.data.session_id, response.data.session_key, response.data.customer_details
 						$('.login-box .login-step2').fadeOut 200, ->
 							$('.login-box .login-step4').fadeIn 200
-							app.customer.login.isLoading false
 					else
 						app.error response.message
-						app.customer.login.isLoading false
 				error: (response) ->
 					app.error 'Unknow server error'
-					app.customer.login.isLoading false
+					app.load false
 
 
 
@@ -110,14 +109,14 @@ class Yulcom.Model.Customer extends Backbone.Model
 			$('.login-box .login-step1').fadeOut 200, ->
 				$('.login-box .login-step3').fadeIn 200
 				$('.login-step3 input[type=textbox]').first().focus()
-				app.customer.login.isLoading false
+				app.load false
 
 		showAccountCreation: ->
 			app.load true, '.login-box'
 			$('.login-box .login-step3').fadeOut 200, ->
 				$('.login-box .login-step1').fadeIn 200
 				$('.login-step1 input[type=textbox]').first().focus()
-				app.customer.login.isLoading false
+				app.load false
 
 		saveSessionInfo: (k,p,d) ->
 			app.customer.set 'session_key', k

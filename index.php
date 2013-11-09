@@ -6,7 +6,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
+	<title>Yulcom Demo</title>
+	<link rel="shortcut icon" href="/favicon.ico">
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/static/css/main.css">
@@ -15,7 +16,7 @@
         window.configs = (<?= json_encode(include 'config/get.php'); ?>);
     </script>
 </head>
-    <body>
+    <body class="loading">
 
     	<div class="wrapper">
 	    	<header></header>

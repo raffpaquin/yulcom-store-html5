@@ -282,6 +282,10 @@ header a.logo {
 body {
   background: #eee;
 }
+body.loading {
+  background: #eeeeee url('/static/images/loading-eee.gif') center no-repeat;
+  min-height: 500px;
+}
 #content {
   margin-top: 100px;
   text-align: center;
@@ -435,6 +439,17 @@ input[type=text]:focus {
 .page-cart .cart-form-coupon input {
   text-transform: uppercase;
 }
+div.page-homepage {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 100px 0 0 0;
+  width: 100%;
+  background: url('http://fontis-international.com/gallery/lifestyle-bg.jpg') center no-repeat;
+}
 .page-checkout h1 {
   margin: 0 0 10px 90px !important;
   text-align: left;
@@ -507,6 +522,11 @@ input[type=text]:focus {
 }
 .page-checkout .checkout-progress li.active a {
   color: #2ebf6a;
+  cursor: default;
+}
+.page-checkout .checkout-progress li.not-ready a {
+  color: #bbb;
+  text-shadow: 0 1px #FFF;
   cursor: default;
 }
 .page-checkout .checkout-address-list li,

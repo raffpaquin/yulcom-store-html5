@@ -1,0 +1,67 @@
+<h2>Order Review</h2>
+
+<div class="col-1-2">
+	<table class="table-totals">
+		
+		<tr>
+			<td>Subtotal</td>
+			<td style="width:100px;">{{#money cart.sub_total}}{{/money}}</td>
+		</tr>
+		
+
+		{{#if cart.totals.discount}}
+		<tr>
+			<td>Discount &mdash; {{cart.checkout.coupon}} </td>
+			<td style="width:100px;">({{#money cart.totals.discount}}{{/money}})</td>
+		</tr>
+		{{/if}}
+
+		{{#if cart.totals.shipping_fees}}
+		<tr>
+			<td>Shipping</td>
+			<td style="width:100px;">{{#money cart.totals.shipping_fees}}{{/money}}</td>
+		</tr>
+		{{else}}
+		<tr>
+			<td>Shipping</td>
+			<td style="width:100px;">FREE</td>
+		</tr>
+		{{/if}}
+
+		{{#if cart.totals.tax}}
+		<tr>
+			<td>Tax</td>
+			<td style="width:100px;">{{#money cart.totals.tax}}{{/money}}</td>
+		</tr>
+		{{/if}}
+
+		<tr style="font-size:18px;">
+			<td>Grand-Total</td>
+			<td style="width:100px;">{{#money cart.grand_total}}{{/money}}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="col-2-2">
+	<ul class="review-details">
+		<li>
+			Shipping Address<br/>
+			<span>{{cart.checkout.label.shipping_address}}</span>
+		</li>
+		<li>
+			Billing Address<br/>
+			<span>{{cart.checkout.label.billing_address}}</span>
+		</li>
+		<li>
+			Payment Method<br/>
+			<span>{{cart.checkout.label.payment}}</span>
+		</li>
+	</ul>
+</div>
+
+<div class="clear"></div>
+
+<div class="btn-group">
+	<a href="#" class="btn" onclick="app.views.page.action.goTo('payment-method'); return false;">Back</a>
+	<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('review'); return false;">Confirm &raquo;</a>
+</div>

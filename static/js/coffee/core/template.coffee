@@ -7,10 +7,16 @@ app.template =
 		#Base Object
 		object = $.extend {customer:app.customer.toJSON()}, object
 		if @engines[template_id]
-			console.log object
+			console.log object, template_id if app.debug
 			@engines[template_id] object
 		else
-			alert 'Unknow Template Engine'
+			alert 'Unknow Template Engine ['+template_id+']'
+
+	renderFromStringTemplate: (template_string, object) ->
+		object = $.extend {customer:app.customer.toJSON()}, object
+		template = Handlebars.compile template_string
+		template object
+
 
 	block: (template_id, jquery_container) ->
 		content_html = @render template_id

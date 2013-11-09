@@ -32,6 +32,7 @@ class Yulcom.Router extends Backbone.Router
 	home: ->
 		app.views.page.reset()
 		app.views.page.loadTemplate 'index'
+		app.views.page.title 'Home | Yulcom Demo'
 		app.views.page.load
 			menu:'index'
 
@@ -41,6 +42,7 @@ class Yulcom.Router extends Backbone.Router
 		else
 			app.views.page.reset()
 			app.views.page.loadTemplate 'login'
+			app.views.page.title 'Login | Yulcom Demo'
 			app.views.page.load
 				menu:'login'
 
@@ -48,6 +50,7 @@ class Yulcom.Router extends Backbone.Router
 		app.views.page.reset()
 		app.views.page.loadCollection 'products', app.collections.products
 		app.views.page.loadTemplate 'product/list'
+		app.views.page.title 'Products | Yulcom Demo'
 		app.views.page.load
 			menu:'products'
 
@@ -55,6 +58,7 @@ class Yulcom.Router extends Backbone.Router
 		app.views.page.reset()
 		app.views.page.loadModel 'product', new app.models.product {id:product_id}
 		app.views.page.loadTemplate 'product/view'
+		app.views.page.title '{{product.name}} | Products | Yulcom Demo'
 		app.views.page.load
 			menu:'products'
 
@@ -63,6 +67,7 @@ class Yulcom.Router extends Backbone.Router
 			app.views.page.reset()
 			app.views.page.loadModel 'cart', app.models.cart
 			app.views.page.loadTemplate 'cart/cart'
+			app.views.page.title 'Cart | Yulcom Demo'
 			app.views.page.load
 				menu:'cart'
 		else
@@ -76,6 +81,11 @@ class Yulcom.Router extends Backbone.Router
 			app.views.page.loadCollection 'address', app.collections.address
 			app.views.page.loadCollection 'cc', app.collections.cc
 			app.views.page.loadTemplate 'checkout/checkout'
+			app.views.page.loadSubView 'li.step-shipping-address', 'checkout/step_shipping_address'
+			app.views.page.loadSubView 'li.step-billing-address', 'checkout/step_billing_address'
+			app.views.page.loadSubView 'li.step-payment-method', 'checkout/step_payment'
+			app.views.page.loadSubView 'li.step-review', 'checkout/step_review'
+			app.views.page.title 'Checkout | Yulcom Demo'
 			app.views.page.callback app.views.page.action.init
 			app.views.page.load
 				menu:'cart'
@@ -87,6 +97,8 @@ class Yulcom.Router extends Backbone.Router
 		location.href = '/'
 
 
+	_updateTitle:(title) ->
+		$('title').text title
 
 
 $ ->

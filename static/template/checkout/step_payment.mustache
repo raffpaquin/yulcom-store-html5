@@ -1,0 +1,50 @@
+<div class="col-1-2">&nbsp;</div>
+
+<div class="col-2-2 cc-list {{#unless cc}}list-empty{{/unless}}">
+
+	<form id="form-payment" class="payment-form" onsubmit="app.views.page.action.saveSection('payment-method'); return false;" style="text-align:left;">
+		<h2>
+			Add Payment Method 
+			<a href="#" onclick="app.views.page.action.toggleForm('payment-method'); return false;">&laquo; View All</a>
+		</h2>
+		<div class="alert alert-error" style="margin-bottom: 10px; width: 325px;"></div>
+		
+		<input name="number" type="text" class="cc-num w1" placeholder="Credit Card Number" /><br/>
+		<input name="cvc" type="text" class="w3" placeholder="CVC" />
+		<input name="exp_month" type="text" class="w3" placeholder="Expiration Month" />
+		<input name="exp_year" type="text" class="w3" placeholder="Year" />
+		<div style="text-align:left;">
+			<img src="/static/images/cc/visa.png">
+			<img src="/static/images/cc/mastercard.png">
+		</div>
+	</form>
+
+	<div class="form-list ">
+		<h2>Select Payment Method</h2>
+		<div class="alert alert-error"></div>
+		<ul class="checkout-cc-list">
+			{{#each cc}}
+			<li {{#compare ../cart.checkout.payment '==' _id}}class="active"{{/compare}}  data-cc-id="{{_id}}" onclick="app.views.page.action.saveSection('payment-method','{{_id}}'); return false;">
+				<label>
+					{{type}} Credit Card<br/>
+					XXXX {{last4}} &mdash; Expiration {{exp_month}}/{{exp_year}}
+				</label>
+				<img src="/static/images/cc/{{type}}.png" />
+			</li>
+			{{/each}}
+			<li class="add" onclick="app.views.page.action.toggleForm('payment-method'); return false;">
+				Add new
+			</li>
+		</ul>
+	</div>
+
+
+	
+</div>
+
+<div class="clear"></div>
+
+<div class="btn-group">
+	<a href="#" class="btn" onclick="app.views.page.action.goTo('billing-address'); return false;">Back</a>
+	<a href="#" class="btn btn-green" onclick="app.views.page.action.saveSection('payment-method'); return false;">Continue &raquo;</a>
+</div>
