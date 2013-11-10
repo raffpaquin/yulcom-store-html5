@@ -65,8 +65,8 @@ class Yulcom.Router extends Backbone.Router
 	cart:->
 		if app.customer.isLogin()
 			app.views.page.reset()
-			app.views.page.loadModel 'cart', app.models.cart
 			app.views.page.loadTemplate 'cart/cart'
+			app.views.page.loadModel 'cart', app.models.cart
 			app.views.page.title 'Cart | Yulcom Demo'
 			app.views.page.load
 				menu:'cart'

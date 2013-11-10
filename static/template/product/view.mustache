@@ -13,6 +13,10 @@
 	<img src="{{product.image}}">
 	
 	<div>
-		<a href="#" onclick="app.models.cart.item.add('{{product.id}}'); return false;" class="btn btn-green">Add to Cart</a>
+		{{#if customer.is_login}}
+			<a href="#" onclick="app.models.cart.item.add('{{product.id}}'); return false;" class="btn btn-green">Add to Cart</a>
+		{{else}}	
+			<a href="/login" class="btn btn-green">Create a free account to buy</a>
+		{{/if}}
 	</div>
 </div>

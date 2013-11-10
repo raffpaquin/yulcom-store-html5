@@ -1,6 +1,6 @@
 class Yulcom.View.Page extends Backbone.View
 
-	el:$('#content')
+	el:'#content'
 	ressources:
 		template:null
 		collection:{}
@@ -46,6 +46,7 @@ class Yulcom.View.Page extends Backbone.View
 					self.render()
 		else
 			@data[key] = collection.toJSON()
+			@render()
 
 	loadModel: (key, model) ->
 		@ressources.model[key] = model
@@ -60,6 +61,7 @@ class Yulcom.View.Page extends Backbone.View
 					self.render()
 		else
 			@data[key] = model.toJSON()
+			@render()
 
 	loadJSON: (key, obj)->
 		@data[key] = obj
@@ -95,8 +97,10 @@ class Yulcom.View.Page extends Backbone.View
 		@render()
 
 	render: ->
+		console.log @ressources.template, @queue.template, @queue.model, @queue.collection
 		if @queue.template == 0 and @queue.model == 0 and @queue.collection == 0 
-			@$el.html app.template.render @ressources.template, @data
+
+			$('#content').html app.template.render @ressources.template, @data
 
 			self = @
 			$.each @ressources.sub_view, (key, item) ->

@@ -13,10 +13,6 @@ class Yulcom.Model.Customer extends Backbone.Model
 			return
 
 		@login.saveSessionInfo k,p,{}
-
-		$.ajaxSetup
-			headers:
-				'Authorization':'Basic ' + window.btoa(k+':'+p)
 		
 
 	isLogin: ->
@@ -127,9 +123,47 @@ class Yulcom.Model.Customer extends Backbone.Model
 			app.cookie.write 'ycsk', k
 			app.cookie.write 'ycsd', p
 
+			$.ajaxSetup
+				headers:
+					'Authorization':'Basic ' + window.btoa(k+':'+p)
+
 
 
 		login: ->
-			app.load false
+			app.load true, '.login-box'
+
+			email = $('.login-step3 input[name=email]').val()
+			password = $('.login-step3 input[name=password]').val()
+
+			if not app.validation.name email
+				app.error 'Please enter an email address', '.login-box'
+				$('.login-step3 input[name=email]').first().focus()
+				app.load false
+				return
+
+			if not app.validation.name password
+				app.error 'Please enter a  pasword', '.login-box'
+				$('.login-step3 input[name=password]').first().focus()
+				app.load false
+				return
+
+
+			app.api.post
+				url:'customer/session'
+				type:'POST'
+				data:
+					email:email
+					password:password
+				success: (response) ->
+					app.load false
+					if response.status == 'success'
+						app.customer.login.saveSessionInfo response.data.session_id, response.data.session_key, response.data.customer_details
+						$('.login-box .login-step3').fadeOut 200, ->
+							$('.login-box .login-step3').fadeIn 200
+					else
+						app.error response.message
+				error: (response) ->
+					app.error 'Unknow server error'
+					app.load false
 
 

@@ -6,11 +6,12 @@ app.template =
 	render: (template_id, object) ->
 		#Base Object
 		object = $.extend {customer:app.customer.toJSON()}, object
-		if @engines[template_id]
-			console.log object, template_id if app.debug
-			@engines[template_id] object
-		else
-			alert 'Unknow Template Engine ['+template_id+']'
+		if template_id
+			if @engines[template_id]
+				console.log object, template_id if app.debug
+				@engines[template_id] object
+			else
+				alert 'Unknow Template Engine ['+template_id+']'
 
 	renderFromStringTemplate: (template_string, object) ->
 		object = $.extend {customer:app.customer.toJSON()}, object

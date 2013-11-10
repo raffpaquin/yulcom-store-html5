@@ -5,17 +5,25 @@ yulcom-store-html5
 
 
 TODO:
-	- Bug lors d'une creation de compte ou d'un login, must update les sessions key et pass
-	- Bug avec les cookies
-	- Refactor du code FrontEnd
-	- Login
-	- Tracking UTM
-	- Meilleure page produit
-	- SEO
-	- Mettre en ligne un fake shop
-	- Update Docs & Make is work on NGIX
-	- Style Docs
+	- Bug with the card type when dynamically adding to a collection
+	- Refresh header on login
+	- Undefined.mustache when login
+	- Expiration date in CC form
+	- Add email to step 2 of account creation
 
+
+OMFG
+	- Refactor du code FrontEnd
+	- Mettre en ligne un fake shop
+	
+	
+	- DONE Add to cart lorsque non connecté
+	- DONE Bug avec les cookies lors du logout
+	- DONE Login
+	- DONE Bug lors d'une creation de compte ou d'un login, must update les sessions key et pass
+	- DONE BUg avec le add to cart vers le cart lors qu'on vient de créer un compte
+	- DONE Style Docs
+	- DONE Update Docs & Make is work on NGIX
 	- DONE Favicon
 	- DONe <title></title>
 	- DONE Remake de la landing page de base
@@ -36,3 +44,10 @@ TODO:
 	- DONE Full Checkout Process
 	- DONE Confirmation Page
 	- DONE Loading between pages
+
+
+Next Steps:
+	- Address Verification Strategy
+	- Tracking UTM
+	- Meilleure page produit
+	- SEO

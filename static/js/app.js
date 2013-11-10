@@ -104,7 +104,7 @@
       return _ref;
     }
 
-    Page.prototype.el = $('#content');
+    Page.prototype.el = '#content';
 
     Page.prototype.ressources = {
       template: null,
@@ -159,7 +159,8 @@
           }
         });
       } else {
-        return this.data[key] = collection.toJSON();
+        this.data[key] = collection.toJSON();
+        return this.render();
       }
     };
 
@@ -177,7 +178,8 @@
           }
         });
       } else {
-        return this.data[key] = model.toJSON();
+        this.data[key] = model.toJSON();
+        return this.render();
       }
     };
 
@@ -225,8 +227,9 @@
 
     Page.prototype.render = function() {
       var callback, self, _i, _len, _ref1, _results;
+      console.log(this.ressources.template, this.queue.template, this.queue.model, this.queue.collection);
       if (this.queue.template === 0 && this.queue.model === 0 && this.queue.collection === 0) {
-        this.$el.html(app.template.render(this.ressources.template, this.data));
+        $('#content').html(app.template.render(this.ressources.template, this.data));
         self = this;
         $.each(this.ressources.sub_view, function(key, item) {
           return self.refreshSubView(key);
@@ -657,13 +660,15 @@
       object = $.extend({
         customer: app.customer.toJSON()
       }, object);
-      if (this.engines[template_id]) {
-        if (app.debug) {
-          console.log(object, template_id);
+      if (template_id) {
+        if (this.engines[template_id]) {
+          if (app.debug) {
+            console.log(object, template_id);
+          }
+          return this.engines[template_id](object);
+        } else {
+          return alert('Unknow Template Engine [' + template_id + ']');
         }
-        return this.engines[template_id](object);
-      } else {
-        return alert('Unknow Template Engine [' + template_id + ']');
       }
     },
     renderFromStringTemplate: function(template_string, object) {
@@ -1057,12 +1062,7 @@
       if (false === k || false === p || 'false' === k || 'false' === p) {
         return;
       }
-      this.login.saveSessionInfo(k, p, {});
-      return $.ajaxSetup({
-        headers: {
-          'Authorization': 'Basic ' + window.btoa(k + ':' + p)
-        }
-      });
+      return this.login.saveSessionInfo(k, p, {});
     };
 
     Customer.prototype.isLogin = function() {
@@ -1176,10 +1176,53 @@
         app.customer.set('customer_details', d);
         app.customer.set('is_login', true);
         app.cookie.write('ycsk', k);
-        return app.cookie.write('ycsd', p);
+        app.cookie.write('ycsd', p);
+        return $.ajaxSetup({
+          headers: {
+            'Authorization': 'Basic ' + window.btoa(k + ':' + p)
+          }
+        });
       },
       login: function() {
-        return app.load(false);
+        var email, password;
+        app.load(true, '.login-box');
+        email = $('.login-step3 input[name=email]').val();
+        password = $('.login-step3 input[name=password]').val();
+        if (!app.validation.name(email)) {
+          app.error('Please enter an email address', '.login-box');
+          $('.login-step3 input[name=email]').first().focus();
+          app.load(false);
+          return;
+        }
+        if (!app.validation.name(password)) {
+          app.error('Please enter a  pasword', '.login-box');
+          $('.login-step3 input[name=password]').first().focus();
+          app.load(false);
+          return;
+        }
+        return app.api.post({
+          url: 'customer/session',
+          type: 'POST',
+          data: {
+            email: email,
+            password: password
+          },
+          success: function(response) {
+            app.load(false);
+            if (response.status === 'success') {
+              app.customer.login.saveSessionInfo(response.data.session_id, response.data.session_key, response.data.customer_details);
+              return $('.login-box .login-step3').fadeOut(200, function() {
+                return $('.login-box .login-step3').fadeIn(200);
+              });
+            } else {
+              return app.error(response.message);
+            }
+          },
+          error: function(response) {
+            app.error('Unknow server error');
+            return app.load(false);
+          }
+        });
       }
     };
 
@@ -1443,8 +1486,8 @@
     Router.prototype.cart = function() {
       if (app.customer.isLogin()) {
         app.views.page.reset();
-        app.views.page.loadModel('cart', app.models.cart);
         app.views.page.loadTemplate('cart/cart');
+        app.views.page.loadModel('cart', app.models.cart);
         app.views.page.title('Cart | Yulcom Demo');
         return app.views.page.load({
           menu: 'cart'
